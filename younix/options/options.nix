@@ -1,4 +1,4 @@
-# file: younix/options.nix
+# file: younix/options/options.nix
 
 # #############################################################################
 #
