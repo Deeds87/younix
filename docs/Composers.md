@@ -133,7 +133,7 @@ in
   # TODO: Add components
 
   # Example:
-  # imports = [
+  # imports =
   # 
   # ----------------------------------------- componentName
   #
@@ -142,7 +142,6 @@ in
   #
   #   else [];
   #
-  # ]
   
 }
 ```
