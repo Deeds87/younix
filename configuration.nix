@@ -60,7 +60,9 @@ in
     # easy to use entry point and more advanced users get a bit more of
     # convenience. This module can be adopted or removed depending on
     # skills and will.
-    ./younix
+    ./younix/core
+    ./younix/options
+    ./younix/composers
 
     # Hardware configuration:
     # This file declares the hardware configuration of the current machine.
@@ -68,10 +70,6 @@ in
     # your hardware-configuration.nix was moved to this repo automatically,
     # otherwise make sure it's been present in the repo's root directory.
     ./hardware-configuration.nix
-
-    # Users directory:
-    # This loads all configured users on the system.
-    ./users
 
     # Home-Manager configuration:
     # This file configures the Home-Manager integration.
