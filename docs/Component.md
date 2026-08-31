@@ -35,19 +35,17 @@ Example:
 #
 # #############################################################################
 
-{ ... }:
-
 {
   # List of NixOS modules
   nixosModules = [
-    module1
-    module2
+    ./path/to/module1
+    ./path/to/module2
   ];
 
   # List of Home Manager modules
   hmModules = [
-    module3
-    module4
+    ./path/to/module3
+    ./path/to/module4
   ];
 }
 ```
