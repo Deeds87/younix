@@ -1,0 +1,322 @@
+// File: ~/.dotfiles/niri/.config/niri/config.kdl
+
+// My personal niri configuration
+
+// This configuration file is build on my personal preferences but feel free to
+// make any changes on what you do not like.
+// It has some dependencies like the N-tiler script. Keep that in mind.
+
+// Outline:
+// - Startup
+// - General
+// - Input
+// - General Appearance
+// - Window rules
+// - Includes
+
+
+
+
+// STARTUP ====================================================================
+// This part of the configuration will load things at startup
+
+// Niri_tile_to_n -------------------------------------------------------------
+
+// https://github.com/heyoeyo/niri_tweaks
+
+// This script makes niri to tile n times before scrolling.
+// Run python3 niri_tile_to_n.py --help to get configuration options.
+
+spawn-sh-at-startup "python3 ~/.config/niri/defaults/addons/niri_tweaks/niri_tile_to_n.py"
+
+
+
+
+// GENERAL ====================================================================
+// All general settings should be placed here
+
+// Environment variables ------------------------------------------------------
+//
+environment {
+  XDG_CURRENT_DESKTOP "niri"
+}
+
+// Disable defaults -----------------------------------------------------------
+
+// Disable "Faild to parse config file" notification
+config-notification {
+    disable-failed
+}
+// Do not show keymaps overlay at startup
+hotkey-overlay {
+    skip-at-startup
+}
+
+// Screenshot path ------------------------------------------------------------
+
+screenshot-path "~/Bilder/Screenshots/Screenshot from %Y-%m-%d %H-%M-%S.png"
+
+
+
+
+// INPUT ======================================================================
+// All settings for your input devices should be placed here
+
+// Gestures -------------------------------------------------------------------
+
+gestures {
+    hot-corners {
+        off
+    }
+}
+
+// Input device settings ------------------------------------------------------
+input {
+
+    // Keyboard settings
+
+    keyboard {
+        // Set custom keyboard layout and switch between with Ctrl + Ctrl
+        xkb{
+            layout "us-swapped-zy,de,de"
+            variant ",nodeadkeys,us"
+            options "grp:ctrls_toggle"
+        }
+    }
+
+    // Touchpad settings
+
+    touchpad {
+        tap
+        natural-scroll
+        disabled-on-external-mouse
+    }
+
+    // Mouse settings
+
+    // mouse {
+    // }
+
+    // Trackpoint settings
+
+    // trackpoint {
+    // }
+
+// Additional input options ---------------------------------------------------
+
+    // Moves mouse to the center of focused window
+    warp-mouse-to-focus mode="center-xy-always"
+
+    // Focus follows mouse but only when the view will not scroll
+    focus-follows-mouse max-scroll-amount="0%"
+}
+
+
+
+
+// GENERAL APPEARANCE =========================================================
+// Settings to change the overall look should be placed here.
+
+// Layout settings ------------------------------------------------------------
+
+layout {
+    // Set the color of the layer behind the wallpaper
+    background-color "transparent"
+
+    // Center single column (Not needed with N-tiler script because a single
+    // window is maximized by default)
+    always-center-single-column
+
+    // Column width presets to cycle through with a keybinding
+    preset-column-widths {
+        proportion 0.33333
+        proportion 0.5
+        proportion 0.66667
+        proportion 1.0
+    }
+
+    // Set the default column width
+    default-column-width { proportion 0.5; }
+
+   // Some fallbacks (handled by DMS)
+    border {
+        off
+        width 4
+        active-color   "#707070"
+        inactive-color "#d0d0d0"
+        urgent-color   "#cc4444"
+    }
+
+    // Window shadows
+    shadow {
+        softness 30
+        spread 5
+        offset x=0 y=5
+        color "#0007"
+    }
+
+    // Struts on the left and right let peek out the window on the left or right
+    // side.
+    // On the top and bottom struts are just outer gaps. (All set in pixels)
+    // struts {
+    // }
+}
+
+// Animation settings ---------------------------------------------------------
+
+animations {
+    workspace-switch {
+        spring damping-ratio=0.80 stiffness=523 epsilon=0.0001
+    }
+    window-open {
+        duration-ms 150
+        curve "ease-out-expo"
+    }
+    window-close {
+        duration-ms 150
+        curve "ease-out-quad"
+    }
+    horizontal-view-movement {
+        spring damping-ratio=0.85 stiffness=423 epsilon=0.0001
+    }
+    window-movement {
+        spring damping-ratio=0.75 stiffness=323 epsilon=0.0001
+    }
+    window-resize {
+        spring damping-ratio=0.85 stiffness=423 epsilon=0.0001
+    }
+    config-notification-open-close {
+        spring damping-ratio=0.65 stiffness=923 epsilon=0.001
+    }
+    screenshot-ui-open {
+        duration-ms 200
+        curve "ease-out-quad"
+    }
+    overview-open-close {
+        spring damping-ratio=0.85 stiffness=800 epsilon=0.0001
+    }
+}
+
+// Additional settings --------------------------------------------------------
+
+// Let niri do the decoration when possible
+prefer-no-csd
+
+// Embed quickshell applications (Windows can be placed on top of quickshell)
+layer-rule {
+    match namespace="^quickshell$"
+    place-within-backdrop true
+}
+
+// No shadows in overview
+overview {
+    workspace-shadow {
+        off
+    }
+}
+
+
+
+
+// ========================= WINDOW RULES BEGIN ===============================
+// All window specific rules should be placed here
+
+// Window rule to make GNOME apps more consistent in styling
+window-rule {
+    match app-id=r#"^org\.gnome\."#
+    draw-border-with-background false
+    geometry-corner-radius 12
+    clip-to-geometry true
+}
+
+// Window rule to make terminal more consistent in styling
+window-rule {
+    match app-id="kitty"
+    draw-border-with-background false
+}
+
+window-rule {
+    match app-id=r#"^gnome-control-center$"#
+    match app-id=r#"^pavucontrol$"#
+    match app-id=r#"^nm-connection-editor$"#
+    default-column-width { proportion 0.5; }
+    open-floating false
+}
+
+// Make apps floating by default
+window-rule {
+    match app-id=r#"^gnome-calculator$"#
+    match app-id=r#"^galculator$"#
+    match app-id=r#"^blueman-manager$"#
+    match app-id=r#"^xdg-desktop-portal$"#
+    match app-id=r#"^org.gnome.Nautilus$"#
+    match app-id=r#"firefox$"# title="^Picture-in-Picture$"
+    match app-id=r#"com.danklinux.dms"#
+    match app-id="zoom"
+    open-floating true
+}
+
+// Open program maximized
+window-rule{
+    match app-id=r#"zen"#
+    match app-id=r#"brave"#
+    match app-id=r#"code"#
+    match app-id=r#"kitty-max"#
+    match app-id=r#"vbox"#
+    open-maximized true
+}
+
+// Set inactive window opacity and blur
+window-rule {
+    match is-active=false
+    opacity 0.65
+    background-effect {
+        blur true
+    }
+}
+
+// Set active window opacity and blur
+window-rule {
+    match is-active=true
+    opacity 0.85
+    background-effect {
+        blur true
+    }
+}
+
+// Workaround for apps with invalid serial (Handles possible focus issues)
+debug {
+    honor-xdg-activation-with-invalid-serial
+}
+
+// ========================== WINDOW RULES END ================================
+
+
+
+
+// =========================== INCLUDES BEGIN =================================
+// All other configuration files should be placed here
+
+// Include DMS files (location: ./dms but automatically handled by dms)
+include optional=true "dms/colors.kdl"  //autogenerated
+include optional=true "dms/layout.kdl"  //autogenerated
+include optional=true "dms/alttab.kdl"  //autogenerated
+include optional=true "dms/binds.kdl"   //autogenerated
+include optional=true "dms/outputs.kdl" //autogenerated
+include optional=true "dms/cursor.kdl"  //autogenerated
+include optional=true "dms/wblur.kdl"   //autogenerated
+
+// Include youNIX files (location: no location, automatically handled by youNIX)
+include optional=true "younix/screenshot-path.kdl" //autogenerated
+include optional=true "younix/input.kdl"           // autogenerated
+
+// Include defaults (location: ./defaults/*)
+include optional=true "defaults/keybinds/general.kdl"
+
+// My custom includes (location: ./custom)
+// Includes in this section are able to overwrite all includes defined above.
+// So you don't need to delete or comment out them.
+include optional=true "custom/t480-german-iso-special-keys.kdl"
+//include optional=true "custom/q3pro-german-iso-special-keys.kdl"
+
+// ============================ INCLUDES END ==================================
