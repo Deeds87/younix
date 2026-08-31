@@ -7,18 +7,12 @@
 #
 # #############################################################################
 
-{ osConfig, pkgs, ... }:
-
-let
-
-  username = osConfig.younix.user.username;
-
-in
+{ pkgs, ... }:
 
 {
   # DEPENDENCIES ==============================================================
 
-  home-manager.users.${username}.home.packages = with pkgs; [
+  home.packages = with pkgs; [
 
     # --------------------------------------------- Theming
     adw-gtk3
