@@ -1,0 +1,142 @@
+// File: ~/.dotfiles/niri/.config/niri/custom/my-binds.kdl
+
+// My custom keybindings
+
+// These bindings are compositor-related only.
+// Any bindings related to the shell are configured by the shell itself.
+// For now, I am using DMS, so configure the IPC calls in the DMS settings.
+// By default, DMS sets keybindings for compositor functions,
+// which will be overridden here.
+
+// KEY MEANINGS
+// MOD               = Focus
+// MOD + SHIFT       = Move
+// MOD + CTRL        = Window Actions
+
+// DIRECTIONS
+// ARROWS or HJKL    = windows
+// COMMA / PERIOD    = workspaces
+// PAGEUP / PAGEDOWN = monitors
+
+binds {
+
+// SYSTEM CONTROL =============================================================
+
+// Basic Controls -------------------------------------------------------------
+
+Mod+o                   repeat=false { open-overview; }
+Mod+q                   repeat=false { close-window; }
+
+Mod+Shift+p             { power-off-monitors; }
+Mod+Shift+e             { quit; }
+Mod+Escape              allow-inhibiting=false { toggle-keyboard-shortcuts-inhibit; }
+
+// Additional System Controls -------------------------------------------------
+
+// Screenshots
+Print                   { screenshot; }
+Ctrl+Print              { screenshot-screen; }
+Alt+Print               { screenshot-window; }
+
+
+
+
+// NAVIGATION =================================================================
+
+// Focus -------------------------------------------------------------- MOD + X
+// General modifier to focus something `Mod`
+
+// Focus window
+Mod+Left                { focus-column-left; }
+Mod+Right               { focus-column-right; }
+Mod+Up                  { focus-window-up; }
+Mod+Down                { focus-window-down; }
+// Vim style
+Mod+h                   { focus-column-left; }
+Mod+l                   { focus-column-right; }
+Mod+k                   { focus-window-up; }
+Mod+j                   { focus-window-down; }
+
+// Focus workspace
+Mod+Comma               { focus-workspace-up; }
+Mod+Period              { focus-workspace-down; }
+// Direct access
+Mod+1                   { focus-workspace 1; }
+Mod+2                   { focus-workspace 2; }
+Mod+3                   { focus-workspace 3; }
+Mod+4                   { focus-workspace 4; }
+Mod+5                   { focus-workspace 5; }
+Mod+6                   { focus-workspace 6; }
+Mod+7                   { focus-workspace 7; }
+Mod+8                   { focus-workspace 8; }
+Mod+9                   { focus-workspace 9; }
+
+// Focus monitor
+Mod+Next                { focus-monitor-left; }
+Mod+Prior               { focus-monitor-right; }
+
+// Move ------------------------------------------------------- MOD + SHIFT + X
+// General modifier to move something `Mod+Shift`
+
+// Move window on column level
+Mod+Shift+Left          { consume-or-expel-window-left; }
+Mod+Shift+Right         { consume-or-expel-window-right; }
+Mod+Shift+Up            { move-window-up; }
+Mod+Shift+Down          { move-window-down; }
+// Vim style
+Mod+Shift+h             { consume-or-expel-window-left; }
+Mod+Shift+l             { consume-or-expel-window-right; }
+Mod+Shift+k             { move-window-up; }
+Mod+Shift+j             { move-window-down; }
+
+// Move window on workspace level
+Mod+Shift+Comma         { move-window-to-workspace-up; }
+Mod+Shift+Period        { move-window-to-workspace-down; }
+// Direct access
+Mod+Shift+1             { move-column-to-workspace 1; }
+Mod+Shift+2             { move-column-to-workspace 2; }
+Mod+Shift+3             { move-column-to-workspace 3; }
+Mod+Shift+4             { move-column-to-workspace 4; }
+Mod+Shift+5             { move-column-to-workspace 5; }
+Mod+Shift+6             { move-column-to-workspace 6; }
+Mod+Shift+7             { move-column-to-workspace 7; }
+Mod+Shift+8             { move-column-to-workspace 8; }
+Mod+Shift+9             { move-column-to-workspace 9; }
+
+// Move window on monitor level
+Mod+Shift+Next          { move-window-to-monitor-left; }
+Mod+Shift+Prior         { move-window-to-monitor-right; }
+
+
+
+
+// Window Actions ============================================== MOD + CTRL + X
+// General modifier to perform window actions `Mod+Ctrl`
+
+Mod+Ctrl+r              { switch-preset-column-width; }
+
+Mod+Ctrl+Left           { set-column-width "-10%"; }
+Mod+Ctrl+Right          { set-column-width "+10%"; }
+Mod+Ctrl+Up             { set-window-height "+10%"; }
+Mod+Ctrl+Down           { set-window-height "-10%"; }
+// Vim style
+Mod+Ctrl+h              { set-column-width "-10%"; }
+Mod+Ctrl+l              { set-column-width "+10%"; }
+Mod+Ctrl+k              { set-window-height "+10%"; }
+Mod+Ctrl+j              { set-window-height "-10%"; }
+
+Mod+Ctrl+t              { toggle-window-floating; }
+
+Mod+Ctrl+m              { maximize-column; }
+Mod+Ctrl+f              { fullscreen-window; }
+
+
+
+
+// Applications ===============================================================
+
+Mod+Return              { spawn "xdg-terminal-exec"; }
+Mod+b                   { spawn "xdg-open" "https://"; }
+Mod+e                   { spawn "xdg-open" "."; }
+
+}

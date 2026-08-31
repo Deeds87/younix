@@ -1,0 +1,55 @@
+// File: ~/.dotfiles/niri/.config/niri/custom/t480-german-iso-special-keys.kdl
+
+// Keybindings for special keys on the T480 German ISO keyboard
+
+// Available special keys
+// Fn        :          XF86WakeUp
+// Fn + F1   :          XF86AudioMute
+// Fn + F2   :          XF86AudioLowerVolume
+// Fn + F3   :          XF86AudioRaiseVolume
+// Fn + F4   :          XF86AudioMicMute
+// Fn + F5   :          XF86MonBrightnessDown
+// Fn + F6   :          XF86MonBrightnessUp
+// Fn + F7   :          XF86Display
+// Fn + F8   :          XF86WLAN
+// Fn + F9   :          XF86Tools
+// Fn + F10  :          XF86Bluetooth
+// Fn + F11  :          XF86Keyboard
+// Fn + F12  :          XF86Favorites
+// Fn + Space:          Toggles Keyboard Backlight
+
+binds {
+
+// T480 German ISO keyboard ===================================================
+
+// Audio Controls -------------------------------------------------- FN + F1-F4
+
+// System Audio
+XF86AudioMute           allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "mute"; }
+XF86AudioLowerVolume    allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "decrement" "3"; }
+XF86AudioRaiseVolume    allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "increment" "3"; }
+XF86AudioMicMute        allow-when-locked=true { spawn "dms" "ipc" "call" "audio" "micmute"; }
+// Audio Player
+Ctrl+XF86AudioLowerVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "decrement" "3"; }
+Ctrl+XF86AudioRaiseVolume allow-when-locked=true { spawn "dms" "ipc" "call" "mpris" "increment" "3"; }
+
+// Screen Controls ------------------------------------------------- FN + F5-F7
+
+// Brightness
+XF86MonBrightnessDown   allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "decrement" "5" ""; }
+XF86MonBrightnessUp     allow-when-locked=true { spawn "dms" "ipc" "call" "brightness" "increment" "5" ""; }
+
+// Connectivity --------------------------------------------------- FN + F8/F10
+
+// No configuration needed
+
+// Settings ------------------------------------------------------- FN + F9/F11
+
+XF86Tools               { spawn "dms" "ipc" "call" "settings" "focusOrToggle"; }
+XF86Keyboard            { switch-layout "next"; }
+
+// Shortcuts --------------------------------------------------------- FN + F12
+
+XF86Favorites           { spawn "dms" "ipc" "call" "tmux" "toggle"; }
+
+}

@@ -23,6 +23,12 @@ let
   username = younixSettings.user.username;
 
   desktop = younixSettings.environment.desktop;
+  screenshotPath = younixSettings.environment.screenshotPath;
+  keyboard = {
+    layout = younixSettings.environment.keyboard.layout;
+    variant = younixSettings.environment.keyboard.variant;
+    options = "grp:ctrls_toggle";
+  };
 
   # HELPER ====================================================================
   #
@@ -67,15 +73,50 @@ let
     hmModules = niri.hmModules ++ dms.hmModules ++ dms-greeter.hmModules;
 
     initActions = [
+      # External niri settings
       {
         action = "copy";
         source = ./../../environments/desktops/niri/external-configs;
         destination = [ ".config/niri" ];
       }
+
+      # External DMS settings
       {
         action = "copy";
         source = ./../../environments/desktop-shells/dms/external-configs;
         destination = [ ".config/DankMaterialShell" ];
+      }
+
+      # Screenshot path
+      {
+        action = "write-file";
+        content = ''
+          screenshot-path "${screenshotPath}/Screenshot from %Y-%m-%d %H-%M-%S.png"
+        '';
+        destination = [ ".config/niri/younix/screenshot-path.kdl" ];
+      }
+
+      # Input settings
+      {
+        action = "write-file";
+        content = ''
+            input {
+            keyboard {
+              xkb {
+                layout "${keyboard.layout}"
+                variant "${keyboard.variant}"
+                options "${keyboard.options}"
+              }
+            }
+            touchpad {
+              tap
+              natural-scroll
+              disabled-on-external-mouse
+            }
+          }
+
+        '';
+        destination = [ ".config/niri/younix/input.kdl" ];
       }
     ];
   };
