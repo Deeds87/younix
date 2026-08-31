@@ -83,7 +83,6 @@
       │
       ├─ gdm/                            # GDM greeter
       │  ├─ external-configs/                External configuration
-
       │  │  └─ .gitkeep
       │  ├─ home-manager/                  # Home-Manager modules
       │  │  └─ .gitkeep
@@ -132,19 +131,28 @@ Those belong in their respective directories.
 ## Features
 
 ```
-└── features/ 
+└── features/
     │
     │
-    └── virtualization/                # Virtualization
+    └── virtualization/                # Virtualization feature
         │
-        ├── external-configs/            # External configuration
-        │   └── .gitkeep
-        ├── home-manager/                # Home-Manager modules
-        │   └── .gitkeep
-        ├── nixos/                       # NixOS modules
-        │   ├── qemu.nix                   # qemu/kvm module
-        │   └── virtualbox.nix             # virtualbox module
-        └── default.nix                  # Virtualization aggregator
+        ├── qemu/                        # Qemu feature component
+        │   ├── external-configs/          # External-configuration
+        │   │   └── .gitkeep
+        │   ├── home-manager/              # Home-Manager modules
+        │   │   └── .gitkeep
+        │   ├── nixos/                     # NixOS modules
+        │   │   └── qemu.nix                 # Qemu configuration
+        │   └── default.nix                # Qemu aggregator
+        │
+        └── virtualbox/                  # VirtualBox feature component
+            ├── external-configs/          # External-configuration
+            │   └── .gitkeep
+            ├── home-manager/              # Home-Manager modules
+            │   └── .gitkeep
+            ├── nixos/                     # NixOs modules
+            │   └── virtualbox.nix           # VirtualBox configuration
+            └── default.nix                # VirtualBox aggregator
 ```
 
 ## Software
