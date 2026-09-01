@@ -22,7 +22,7 @@ let
 
   username = younixSettings.user.username;
 
-  virtualizationFrontend = younixSettings.features.virtualization.frontend;
+  virtualizationFrontend = younixSettings.features.virtualization.frontends;
 
   # HELPER ====================================================================
   #
@@ -203,12 +203,7 @@ in
 
     # ----------- ---------------------------- Virt-Manager
 
-    (
-      if virtualizationFrontend == "virt-manager" then
-        [ (composeComponent virtManagerComponent) ]
-      else
-        [ ]
-    )
+    (if virtualizationFrontend == "virt-manager" then (composeComponent virtManagerComponent) else { })
 
     # ----------- ----------------------------- Zen-Browser
 
