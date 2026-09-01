@@ -16,9 +16,6 @@
     # YouNIX core module ----------------------------------
     ./module.nix
 
-    # YouNIX initActions ----------------------------------
-    ./init-actions.nix
-
   ];
 
 }

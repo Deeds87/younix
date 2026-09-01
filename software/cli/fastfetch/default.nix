@@ -9,7 +9,7 @@
 
 {
 
-  nixosModule = [ ];
+  nixosModules = [ ];
 
   hmModules = [
 

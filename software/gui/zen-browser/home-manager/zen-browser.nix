@@ -69,7 +69,7 @@ let
 in
 
 {
-  home-manager.users.${osConfig.younix.user.username}.home.packages = [
+  home.packages = [
     (pkgs.wrapFirefox
       inputs.zen-browser.packages.${pkgs.stdenv.hostPlatform.system}.zen-browser-unwrapped
       {

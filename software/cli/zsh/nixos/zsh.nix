@@ -1,24 +1,14 @@
-# file: software/cli/zsh/default.nix
+# file: software/cli/zsh/nixos/zsh.nix
 
 # #############################################################################
 #
 # Description:
-# Aggregates ZSH.
+# ZSH - Modern interactive Shell
 #
 # #############################################################################
 
+{ ... }:
+
 {
-
-  nixosModules = [
-
-    ./nixos/zsh.nix
-
-  ];
-
-  hmModules = [
-
-    ./home-manager/zsh.nix
-
-  ];
-
+  programs.zsh.enable = true;
 }
