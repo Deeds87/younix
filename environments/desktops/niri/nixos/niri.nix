@@ -16,6 +16,7 @@
   environment.systemPackages = with pkgs; [
     xwayland-satellite # X11-application compatibility
     xdg-terminal-exec # Used for application-independent keybinds
+    python3 # Used for addon scripts
   ];
 
   # NIRI MODULE ===============================================================
