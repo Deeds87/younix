@@ -50,7 +50,7 @@ in
       # application modules instead. This aggregator can still be used
       # independently when youNIX is not used.
       imports = [
-        ./packages/applications
+        # Create an application aggregator .(/software/default.nix)
       ];
     };
   };
