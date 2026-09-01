@@ -11,6 +11,10 @@
 
   nixosModules = [ ];
 
-  hmModules = [ ];
+  hmModules = [
+
+    ./home-manager/starship.nix
+
+  ];
 
 }
