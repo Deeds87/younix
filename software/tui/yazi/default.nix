@@ -9,7 +9,11 @@
 
 {
 
-  nixosModules = [ ];
+  nixosModules = [
+
+    ./nixos/yazi.nix
+
+  ];
 
   hmModules = [
 
