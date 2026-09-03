@@ -16,13 +16,12 @@
   # ----------------------------------------- Display icons
   fonts.packages = with pkgs; [
     nerd-fonts.jetbrains-mono
-    nerd-fonts.fira-code
-    nerd-fonts.cascadia-code
-    nerd-fonts.hack
-    nerd-fonts.iosevka
   ];
 
   environment.systemPackages = with pkgs; [
+
+    # ----------------------------------------- Integration
+    xdg-terminal-exec
 
     # ------------------------------------------ Navigation
     fzf # file subtree navigation
@@ -43,5 +42,21 @@
     wl-clipboard # wayland clipboard
     _7zz # achiver utility
   ];
+
+  xdg.desktopEntries.yazi = {
+    name = "Yazi File Manager";
+    icon = "yazi";
+    comment = "Blazing fast terminal file manager written in Rust, based on async I/O";
+    terminal = false;
+    exec = "xdg-terminal-exec yazi %f";
+    type = "Application";
+    mimeType = [ "inode/directory" ];
+    categories = [
+      "System"
+      "FileManager"
+      "FileTools"
+      "ConsoleOnly"
+    ];
+  };
 
 }
