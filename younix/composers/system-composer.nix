@@ -4,7 +4,7 @@
 #
 # Description:
 # Composes system relevant components like system core features,
-# system maintenance and system users.
+# system maintenance and system users as well as fonts.
 #
 # #############################################################################
 
@@ -94,6 +94,20 @@ let
     initActions = [ ];
   };
 
+  # ------------------------------------------------- Fonts
+
+  # Import entrypoints
+  fonts = import ./../../system/fonts;
+
+  # Create context aware module lists
+  fontsComponent = {
+    nixosModules = fonts.nixosModules;
+
+    hmModules = fonts.hmModules;
+
+    initActions = [ ];
+  };
+
 in
 
 {
@@ -117,6 +131,10 @@ in
     # ----------------------------------------------- Users
 
     (composeComponent usersComponent)
+
+    # ----------------------------------------------- Fonts
+
+    (composeComponent fontsComponent)
 
   ];
 
