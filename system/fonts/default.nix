@@ -15,6 +15,6 @@
 
   ];
 
-  home-manager = [ ];
+  hmModules = [ ];
 
 }
