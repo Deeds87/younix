@@ -111,9 +111,9 @@
   "controlCenterShowIdleInhibitorIcon": false,
   "controlCenterShowDoNotDisturbIcon": false,
   "showPrivacyButton": true,
-  "privacyShowMicIcon": false,
-  "privacyShowCameraIcon": false,
-  "privacyShowScreenShareIcon": false,
+  "privacyShowMicIcon": true,
+  "privacyShowCameraIcon": true,
+  "privacyShowScreenShareIcon": true,
   "controlCenterWidgets": [
     {
       "id": "volumeSlider",
@@ -166,7 +166,7 @@
       "width": 50
     }
   ],
-  "showWorkspaceIndex": false,
+  "showWorkspaceIndex": true,
   "showWorkspaceName": false,
   "showWorkspacePadding": false,
   "workspaceScrolling": false,
@@ -174,22 +174,22 @@
   "workspaceDragReorder": true,
   "maxWorkspaceIcons": 3,
   "workspaceAppIconSizeOffset": 0,
-  "groupWorkspaceApps": true,
+  "groupWorkspaceApps": false,
   "groupActiveWorkspaceApps": false,
   "workspaceFollowFocus": true,
-  "showOccupiedWorkspacesOnly": false,
+  "showOccupiedWorkspacesOnly": true,
   "reverseScrolling": false,
   "dwlShowAllTags": false,
-  "workspaceActiveAppHighlightEnabled": false,
-  "workspaceColorMode": "none",
+  "workspaceActiveAppHighlightEnabled": true,
+  "workspaceColorMode": "default",
   "workspaceFocusedCustomColor": "#6750A4",
   "workspaceOccupiedColorMode": "none",
-  "workspaceOccupiedCustomColor": "#625B71",
+  "workspaceOccupiedCustomColor": "#0288d1",
   "workspaceUnfocusedColorMode": "default",
   "workspaceUnfocusedCustomColor": "#49454E",
   "workspaceUrgentColorMode": "default",
   "workspaceUrgentCustomColor": "#B3261E",
-  "workspaceFocusedBorderEnabled": true,
+  "workspaceFocusedBorderEnabled": false,
   "workspaceFocusedBorderColor": "primary",
   "workspaceFocusedBorderCustomColor": "#6750A4",
   "workspaceFocusedBorderThickness": 2,
@@ -265,7 +265,7 @@
       "type": "regex"
     }
   ],
-  "centeringMode": "index",
+  "centeringMode": "geometric",
   "clockDateFormat": "",
   "lockDateFormat": "",
   "greeterRememberLastSession": true,
@@ -427,7 +427,7 @@
   "gtkThemingEnabled": false,
   "qtThemingEnabled": false,
   "syncModeWithPortal": true,
-  "terminalsAlwaysDark": true,
+  "terminalsAlwaysDark": false,
   "muxType": "tmux",
   "muxUseCustomCommand": false,
   "muxCustomCommand": "",
@@ -621,21 +621,24 @@
           "enabled": true,
           "size": 20
         },
-        "workspaceSwitcher"
-      ],
-      "centerWidgets": [
-        {
-          "id": "music",
-          "enabled": true
-        },
-        {
-          "id": "weather",
-          "enabled": true
-        },
+        "workspaceSwitcher",
         {
           "id": "spacer",
           "enabled": true,
           "size": 50
+        },
+        {
+          "id": "focusedWindow",
+          "enabled": true,
+          "focusedWindowSize": 0,
+          "focusedWindowCompactMode": true,
+          "focusedWindowShowIcon": true
+        }
+      ],
+      "centerWidgets": [
+        {
+          "id": "clipboard",
+          "enabled": true
         },
         {
           "id": "clock",
@@ -643,22 +646,18 @@
           "clockCompactMode": false
         },
         {
-          "id": "spacer",
-          "enabled": true,
-          "size": 50
-        },
-        {
           "id": "notificationButton",
-          "enabled": true
-        },
-        {
-          "id": "clipboard",
           "enabled": true
         }
       ],
       "rightWidgets": [
         {
           "id": "systemTray",
+          "enabled": true,
+          "trayUseInlineExpansion": true
+        },
+        {
+          "id": "dankKDEConnect",
           "enabled": true
         },
         {
@@ -685,15 +684,6 @@
         },
         {
           "id": "controlCenterButton",
-          "enabled": true
-        },
-        {
-          "id": "spacer",
-          "enabled": true,
-          "size": 20
-        },
-        {
-          "id": "dankKDEConnect",
           "enabled": true
         },
         {
@@ -818,72 +808,7 @@
       "enabled": true
     }
   },
-  "desktopWidgetInstances": [
-    {
-      "id": "dw_1783836641119_6bndaz11r",
-      "widgetType": "systemMonitor",
-      "name": "Systemmonitor",
-      "enabled": false,
-      "config": {
-        "showHeader": true,
-        "transparency": 0,
-        "colorMode": "primary",
-        "customColor": "#ffffff",
-        "showCpu": true,
-        "showCpuGraph": false,
-        "showCpuTemp": true,
-        "showGpuTemp": false,
-        "gpuPciId": "",
-        "showMemory": true,
-        "showMemoryGraph": false,
-        "showNetwork": true,
-        "showNetworkGraph": false,
-        "showDisk": false,
-        "showTopProcesses": false,
-        "topProcessCount": 3,
-        "topProcessSortBy": "cpu",
-        "layoutMode": "auto",
-        "graphInterval": 60,
-        "displayPreferences": [
-          "all"
-        ]
-      },
-      "positions": {
-        "eDP-1": {
-          "width": 720,
-          "height": 200,
-          "x": 40,
-          "y": 120
-        }
-      }
-    },
-    {
-      "id": "dw_1783836919179_75wgjts6w",
-      "widgetType": "desktopClock",
-      "name": "Desktop Uhr",
-      "enabled": true,
-      "config": {
-        "style": "stacked",
-        "transparency": 0,
-        "colorMode": "primary",
-        "customColor": "#ffffff",
-        "showDate": true,
-        "showAnalogNumbers": false,
-        "showAnalogSeconds": true,
-        "displayPreferences": [
-          "all"
-        ]
-      },
-      "positions": {
-        "eDP-1": {
-          "width": 400,
-          "height": 640,
-          "x": 200,
-          "y": 240
-        }
-      }
-    }
-  ],
+  "desktopWidgetInstances": [],
   "desktopWidgetGroups": [],
   "builtInPluginSettings": {
     "dms_settings_search": {
@@ -915,7 +840,7 @@
   "frameThickness": 2,
   "frameRounding": 16,
   "frameColor": "",
-  "frameOpacity": 0.5,
+  "frameOpacity": 0.85,
   "frameScreenPreferences": [
     "all"
   ],
