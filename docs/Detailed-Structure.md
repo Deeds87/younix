@@ -300,6 +300,15 @@ Those belong in their respective directories.
     │   │   └── ssh.nix                    # SSH configuration
     │   └── default.nix                  # Core system configuration aggregator
     │
+    ├── fonts/                         # Fonts
+    │   ├── external-configs/            # External configuration
+    │   │   └── .gitkeep
+    │   ├── home-manager/                # Home-Manager modules
+    │   │   └── .gitkeep
+    │   ├── nixos/                       # NixOS modules
+    │   │   └── fonts.nix                  # Font collection
+    │   └── default.nix                  # Fonts aggregator
+    │
     ├── maintenance/                   # System maintenance
     │   ├── external-configs/            # External configuration
     │   │   └── .gitkeep
@@ -309,7 +318,7 @@ Those belong in their respective directories.
     │   │   ├── cleanup.nix                # System cleanup
     │   │   ├── general.nix                # General maintenance configuration
     │   │   └── updates.nix                # Update configuration
-    │   └── default.nix                    # System maintenance aggregator
+    │   └── default.nix                  # System maintenance aggregator
     │
     └── users/                         # System users
         ├── external-configs/            # External configuration
