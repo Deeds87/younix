@@ -43,20 +43,4 @@
     _7zz # achiver utility
   ];
 
-  xdg.desktopEntries.yazi = {
-    name = "Yazi File Manager";
-    icon = "yazi";
-    comment = "Blazing fast terminal file manager written in Rust, based on async I/O";
-    terminal = false;
-    exec = "xdg-terminal-exec yazi %f";
-    type = "Application";
-    mimeType = [ "inode/directory" ];
-    categories = [
-      "System"
-      "FileManager"
-      "FileTools"
-      "ConsoleOnly"
-    ];
-  };
-
 }
