@@ -21,7 +21,7 @@
   environment.systemPackages = with pkgs; [
 
     # ----------------------------------------- Integration
-    xdg-terminal-exec
+    xdg-terminal-exec # desktop entry
 
     # ------------------------------------------ Navigation
     fzf # file subtree navigation
