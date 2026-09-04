@@ -15,10 +15,6 @@
 
   ];
 
-  hmModules = [
-
-    ./home-manager/dms.nix
-
-  ];
+  hmModules = [ ];
 
 }
