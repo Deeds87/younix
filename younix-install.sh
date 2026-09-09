@@ -363,26 +363,287 @@ case "$confirm" in
 esac
 
 # -----------------------------------------------------------------------------
-# Phase 4: Repository auswählen
+# Phase 4: Choose repository
 # -----------------------------------------------------------------------------
 
-# TODO: Lokales oder Remote-Repository auswählen
-# TODO: Bei Remote: URL und lokalen Pfad abfragen
+clear
+echo "Choose YouNIX repository:"
+echo "  1) remote repository"
+echo "  2) local repository"
+read -r -p "Selection [1]: " input
+
+case "$input" in
+"" | 1)
+    repository_source="remote"
+
+    read -r -p "Repository URL: " repository_url
+    read -r -p "Repository path: " repository_path
+    ;;
+2)
+    repository_source="local"
+
+    read -r -p "Local repository path: " repository_path
+    ;;
+*)
+    echo "Invalid selection."
+    exit 1
+    ;;
+esac
 
 # -----------------------------------------------------------------------------
-# Phase 5: User-Repository vorbereiten
+# Phase 5: Setup user repository
 # -----------------------------------------------------------------------------
 
-# TODO: Remote-Repository klonen
-# TODO: younix-config.nix erzeugen
-# TODO: hardware-configuration.nix kopieren
+clear
+echo "Preparing YouNIX repository..."
+
+case "$repository_source" in
+
+# ---------------------------------------- Local repository
+local)
+    if [[ -e "$repository_path" ]]; then
+        if [[ ! -d "$repository_path" ]]; then
+            echo "The specified path exists but is not a directory:"
+            echo "  $repository_path"
+            exit 1
+        fi
+
+        if [[ -d "$repository_path/.git" ]]; then
+            echo "Using existing Git repository:"
+            echo "  $repository_path"
+        else
+            echo "The specified path is not a Git repository."
+            echo "Initializing a new Git repository..."
+            git -C "$repository_path" init -b main
+        fi
+    else
+        echo "Creating repository directory:"
+        echo "  $repository_path"
+
+        mkdir -p "$repository_path"
+        git -C "$repository_path" init -b main
+    fi
+    ;;
+
+# --------------------------------------- Remote repository
+remote)
+    if [[ -e "$repository_path" ]]; then
+        echo "The local repository path already exists:"
+        echo "  $repository_path"
+        exit 1
+    fi
+
+    while true; do
+        echo
+        echo "Checking remote repository..."
+
+        if git ls-remote "$repository_url" &>/dev/null; then
+            break
+        fi
+
+        echo
+        echo "The remote repository could not be reached or does not exist."
+        echo
+        read -r -p "Repository URL: " repository_url
+    done
+
+    echo
+    echo "Cloning repository..."
+    git clone "$repository_url" "$repository_path"
+    ;;
+
+*)
+    echo "Invalid repository source."
+    exit 1
+    ;;
+
+esac
 
 # -----------------------------------------------------------------------------
-# Phase 6: Änderungen ins User-Repository pushen
+# Phase 7: Create `younix-config.nix`
 # -----------------------------------------------------------------------------
 
-# TODO: Änderungen committen
-# TODO: Änderungen pushen
+clear
+echo "Creating younix-config.nix..."
+sleep 1
+
+cat >"$repository_path/younix-config.nix" <<EOF
+# file: younix-config.nix
+
+# #############################################################################
+#
+# Description:
+# This file collects some of the most important settings for the system.
+# It was filled automatically by \`younix-install.sh\` if you used it.
+#
+# Content:
+#   - System Settings
+#   - Maintenace
+#   - User Settings
+#   - Environment Settings
+#   - Feature Settings
+#
+# #############################################################################
+
+{
+
+  # SYSTEM SETTINGS ===========================================================
+
+  system = {
+
+    # State version ---------------------------------------
+    # DO NOT TOUCH unless you know what you are doing
+    stateVersion = "$state_version";
+
+    # Hardware and Kernel ---------------------------------
+    arch = "$arch";
+    # Options: "latest", "lts"
+    kernel = "$kernel";
+
+    # Host ------------------------------------------------
+    # Must be a valid hostname (no spaces, lowercase recommended)
+    hostname = "$hostname";
+
+    # Localization ----------------------------------------
+    timezone = "$timezone";
+    locale = "$locale";
+
+  };
+
+  # MAINTENANCE ===============================================================
+
+  maintenance = {
+
+    # Boot menu -------------------------------------------
+    # Maximum number of system generations shown in the boot menu
+    bootMenuEntries = 10;
+
+    # Garbage collection ----------------------------------
+    garbageCollection = {
+      # Enable automatic garbage collection
+      enable = true;
+      # When to run automatic garbage collection
+      schedule = "weekly";
+      # Maximum age of store paths to keep
+      retention = "30d";
+    };
+
+  };
+
+  # USER SETTINGS =============================================================
+
+  user = {
+
+    # Main user -------------------------------------------
+    # Must be a valid username (no spaces, lowercase, ...)
+    username = "$username";
+    # Fullname is used for git name
+    fullname = "$fullname";
+    # Email is used for git email
+    email = "$email";
+
+  };
+
+  # ENVIRONMENT SETTINGS ======================================================
+
+  environment = {
+
+    # Chosen desktop environment stack --------------------
+    # Options: "niri", "gnome", "kde", "none"
+    desktop = "$desktop";
+
+    # Screenshot path -------------------------------------
+    screenshotPath = "$screenshot_path";
+
+    # Keyboard layout -------------------------------------
+    keyboard = {
+      # Multiple layouts can be comma seperated
+      layout = "$keyboard_layout";
+      # Variant has to match the layout above
+      variant = "$keyboard_variant";
+    };
+
+  };
+
+  # FEATURE SETTINGS ==========================================================
+
+  features = {
+
+    # Virtualization --------------------------------------
+    virtualization = {
+      # Options: "host", "guest", "none"
+      mode = "$virtualization_mode";
+      # Options (list of): "qemu", "virtualbox"
+      backends = [
+EOF
+
+for backend in "${virtualization_backends[@]}"; do
+    printf '        "%s"\n' "$backend" >>"$repository_path/younix-config.nix"
+done
+
+cat >>"$repository_path/younix-config.nix" <<EOF
+      ];
+      # Options (list of): "virt-manager" or empty list
+      frontends = [
+EOF
+
+for frontend in "${virtualization_frontends[@]}"; do
+    printf '        "%s"\n' "$frontend" >>"$repository_path/younix-config.nix"
+done
+
+cat >>"$repository_path/younix-config.nix" <<EOF
+      ];
+    };
+
+  };
+
+}
+EOF
+
+# -----------------------------------------------------------------------------
+# Phase 8: Copy files to user repository
+# -----------------------------------------------------------------------------
+
+# ---------------------------------- Hardware-configuration
+echo "Copying hardware-configuration.nix..."
+sleep 1
+
+cp /etc/nixos/hardware-configuration.nix \
+    "$repository_path/hardware-configuration.nix"
+
+# -------------------------------------------- YouNIX files
+echo "Copying YouNIX files ..."
+sleep 1
+
+tar \
+    --exclude='./.git' \
+    --exclude='./dev' \
+    --exclude='./docs' \
+    --exclude='./younix-config.nix' \
+    --exclude='./younix-install.sh' \
+    -cf - . |
+    tar -xf - -C "$repository_path"
+
+# -----------------------------------------------------------------------------
+# Phase 9: Commit and push changes to user repository
+# -----------------------------------------------------------------------------
+
+# ------------------------------------------ Initial Commit
+clear
+echo "Creating initial commit..."
+
+git -C "$repository_path" add .
+
+git -C "$repository_path" \
+    -c user.name="$fullname" \
+    -c user.email="$email" \
+    commit -m "Initial YouNIX configuration"
+
+# ------------- Pushing initial commit to remote repository
+if [[ "$repository_source" == "remote" ]]; then
+    echo "Pushing initial commit ..."
+    git -C "$repository_path" push
+fi
 
 # -----------------------------------------------------------------------------
 # Phase 7: Geklonte Repository-Version löschen?
