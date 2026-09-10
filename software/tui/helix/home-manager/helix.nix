@@ -190,7 +190,6 @@ in
       language-server = {
         markdown-oxide = {
           command = "markdown-oxide";
-          args = [ "server" ];
         };
 
         nixd = {
