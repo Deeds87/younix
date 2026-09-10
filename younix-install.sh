@@ -6,22 +6,37 @@ set -euo pipefail
 # YouNIX Installer
 #
 # Phase 1  -  Reading system information
-# Phase 2  -  Print system information
+# Phase 2  -  Print detected system information
 # Phase 3  -  Set configuration values
-# Phase 4  -  Print configuration summary
-# Phase 6  -  Create `younix-config.nix`
-# Phase 7  -  Choose personal repository
-# Phase 8  -  Push complete configuration to personal repository
-# Phase 9  -  Delete cloned upstream repository on user choice
-# Phase 10 -  Rebuild and reboot the system
+# Phase 4  -  Personal repository setup
+# Phase 5  -  Create `younix-config.nix` file
+# Phase 6  -  Copy files into personal repository
+# Phase 7  -  Finish repository setup
+# Phase 8  -  Rebuild and reboot the system
 #
 # =============================================================================
+
+print_header() {
+    cat <<EOF
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+YouNIX Installation ($1 / 8)
+
+Phase $1: $2
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+EOF
+}
 
 # -----------------------------------------------------------------------------
 # Phase 1: Reading system information
 # -----------------------------------------------------------------------------
 
-echo "Reading system information..."
+clear
+
+print_header 1 "Reading system information..."
 
 state_version=""
 arch=""
@@ -71,13 +86,14 @@ state_version="$(
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 2: Print system information
+# Phase 2: Print detected system information
 # -----------------------------------------------------------------------------
 
 # ----------------------- Print detected system information
 clear
-echo "Detected system information:"
-echo
+
+print_header 2 "Detected system information"
+
 printf '  %-18s %s\n' "State version:" "$state_version"
 printf '  %-18s %s\n' "Architecture:" "$arch"
 printf '  %-18s %s\n' "Hostname:" "$hostname"
@@ -93,25 +109,31 @@ read -r -p "Are these values correct? [Y/n] " confirm
 
 case "$confirm" in
 "" | y | Y | yes | Yes | YES)
+    echo
     echo "System information accepted."
-    sleep 1
     ;;
 *)
+    echo
     echo "System information will be configured manually."
-    sleep 1
     ;;
 esac
+
+sleep 1
 
 # -----------------------------------------------------------------------------
 # Phase 3: Set configuration
 # -----------------------------------------------------------------------------
 
+clear
+
+print_header 3 "Set configuration values"
+
 # ---------------------- Change detected system information
 if [[ "$confirm" != "" && "$confirm" != "y" && "$confirm" != "Y" &&
     "$confirm" != "yes" && "$confirm" != "Yes" && "$confirm" != "YES" ]]; then
 
-    clear
-    echo "Please enter the correct values. Press ENTER to accept individual value."
+    echo
+    echo "Please enter the correct values. Press ENTER to accept proposal."
     echo
 
     # State version
@@ -147,11 +169,9 @@ if [[ "$confirm" != "" && "$confirm" != "y" && "$confirm" != "Y" &&
     [[ -n "$input" ]] && keyboard_variant="$input"
 fi
 
-sleep 1
-
 # ------------------------------------- Users configuration
-clear
-echo "YouNIX configuration:"
+echo
+echo "Personal configuration:"
 echo
 
 # Kernel
@@ -173,7 +193,7 @@ case "$input" in
     ;;
 esac
 
-clear
+echo
 
 # Desktop
 echo "Choose desktop environment:"
@@ -202,7 +222,7 @@ case "$input" in
     ;;
 esac
 
-clear
+echo
 
 # Virtualization
 echo "Choose virtualization mode:"
@@ -294,19 +314,19 @@ case "$input" in
     ;;
 esac
 
-clear
+echo
 
 # Full name
 echo "Enter your full name. (It is used for the git configuration)"
 read -r -p "Full name: " fullname
 
-clear
+echo
 
 # E-Mail
 echo "Enter your E-Mail address. (It is used for the git configuration)"
 read -r -p "Email: " email
 
-clear
+echo
 
 # Screenshot path
 pictures_path="$(xdg-user-dir PICTURES)"
@@ -319,13 +339,14 @@ if [[ -n "$input" ]]; then
     screenshot_path="$input"
 fi
 
-sleep 1
-
 # ----------------------------- Final configuration summary
 clear
-echo "YouNIX configuration:"
+
+print_header 3 "Configuration summary."
+
 echo
 
+echo "-------------------------- System information"
 printf '  %-26s %s\n' "System state version:" "$state_version"
 printf '  %-26s %s\n' "Architecture:" "$arch"
 printf '  %-26s %s\n' "Kernel:" "$kernel"
@@ -336,15 +357,18 @@ printf '  %-26s %s\n' "Keyboard layout:" "$keyboard_layout"
 printf '  %-26s %s\n' "Keyboard variant:" "$keyboard_variant"
 
 echo
+echo "-------------------------- User configuration"
 printf '  %-26s %s\n' "Username:" "$username"
 printf '  %-26s %s\n' "Full name:" "$fullname"
 printf '  %-26s %s\n' "Email:" "$email"
 
 echo
+echo "--------------------------------- Environment"
 printf '  %-26s %s\n' "Desktop:" "$desktop"
 printf '  %-26s %s\n' "Screenshot path:" "$screenshot_path"
 
 echo
+echo "------------------------------------ Features"
 printf '  %-26s %s\n' "Virtualization mode:" "$virtualization_mode"
 printf '  %-26s %s\n' "Virtualization backends:" "${virtualization_backends[*]:-none}"
 printf '  %-26s %s\n' "Virtualization frontends:" "${virtualization_frontends[*]:-none}"
@@ -364,12 +388,20 @@ case "$confirm" in
     ;;
 esac
 
+sleep 1
+
 # -----------------------------------------------------------------------------
-# Phase 4: Choose repository
+# Phase 4: Personal repository setup
 # -----------------------------------------------------------------------------
 
 clear
-echo "Choose YouNIX repository:"
+
+print_header 4 "Personal repository setup"
+
+echo
+
+# ---------------------------------- Basic repository setup
+echo "Choose repository type:"
 echo "  1) remote repository"
 echo "  2) local repository"
 read -r -p "Selection [1]: " input
@@ -392,12 +424,7 @@ case "$input" in
     ;;
 esac
 
-# -----------------------------------------------------------------------------
-# Phase 5: Setup user repository
-# -----------------------------------------------------------------------------
-
-clear
-echo "Preparing YouNIX repository..."
+echo
 
 case "$repository_source" in
 
@@ -461,13 +488,17 @@ remote)
 
 esac
 
+sleep 1
+
 # -----------------------------------------------------------------------------
-# Phase 7: Create `younix-config.nix`
+# Phase 5: Create `younix-config.nix`
 # -----------------------------------------------------------------------------
 
 clear
-echo "Creating younix-config.nix..."
-sleep 1
+
+print_header 5 "Creating younix-config.nix..."
+
+echo
 
 cat >"$repository_path/younix-config.nix" <<EOF
 # file: younix-config.nix
@@ -602,9 +633,19 @@ cat >>"$repository_path/younix-config.nix" <<EOF
 }
 EOF
 
+echo "Personal YouNIX configuration created."
+
+sleep 1
+
 # -----------------------------------------------------------------------------
-# Phase 8: Copy files to user repository
+# Phase 6: Copy files to user repository
 # -----------------------------------------------------------------------------
+
+clear
+
+print_header 6 "Copy files into personal repository"
+
+echo
 
 # ---------------------------------- Hardware-configuration
 echo "Copying hardware-configuration.nix..."
@@ -622,16 +663,22 @@ tar \
     --exclude='./dev' \
     --exclude='./docs' \
     --exclude='./younix-config.nix' \
-    --exclude='./younix-install.sh' \
     -cf - . |
     tar -xf - -C "$repository_path"
 
+sleep 1
+
 # -----------------------------------------------------------------------------
-# Phase 9: Commit and push changes to user repository
+# Phase 7: Finish repository setup
 # -----------------------------------------------------------------------------
 
-# ------------------------------------------ Initial Commit
 clear
+
+print_header 7 "Finish repository setup"
+
+echo
+
+# ------------------------------------------ Initial Commit
 echo "Creating initial commit..."
 
 git -C "$repository_path" add .
@@ -647,12 +694,18 @@ if [[ "$repository_source" == "remote" ]]; then
     git -C "$repository_path" push
 fi
 
+sleep 1
+
 # -----------------------------------------------------------------------------
-# Phase 10: NixOS rebuild and reboot
+# Phase 8: NixOS rebuild and reboot
 # -----------------------------------------------------------------------------
 
 clear
-echo "Setup finished."
+
+print_header 8 "Rebuild and reboot the system"
+
+echo
+echo "Setup finished. The system will be rebuild and reboot."
 echo
 
 read -r -p "Press Enter to rebuild and reboot..."
