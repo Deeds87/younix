@@ -68,12 +68,14 @@ state_version="$(
     }'
 )"
 
+sleep 1
+
 # -----------------------------------------------------------------------------
 # Phase 2: Print system information
 # -----------------------------------------------------------------------------
 
 # ----------------------- Print detected system information
-echo
+clear
 echo "Detected system information:"
 echo
 printf '  %-18s %s\n' "State version:" "$state_version"
@@ -646,20 +648,15 @@ if [[ "$repository_source" == "remote" ]]; then
 fi
 
 # -----------------------------------------------------------------------------
-# Phase 7: Geklonte Repository-Version löschen?
+# Phase 10: NixOS rebuild and reboot
 # -----------------------------------------------------------------------------
 
-# TODO: Fragen, ob temporäre Kopie gelöscht werden soll
+clear
+echo "Setup finished."
+echo
 
-# -----------------------------------------------------------------------------
-# Phase 8: NixOS rebuild und Neustart
-# -----------------------------------------------------------------------------
+read -r -p "Press Enter to rebuild and reboot..."
 
-# TODO: NixOS rebuild durchführen
-# TODO: Neustart durchführen
+sudo nixos-rebuild boot --flake "$repository_path#$hostname"
 
-# -----------------------------------------------------------------------------
-# Done
-# -----------------------------------------------------------------------------
-
-echo "YouNIX installation completed."
+sudo reboot
