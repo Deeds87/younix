@@ -712,4 +712,7 @@ read -r -p "Press Enter to rebuild and reboot..."
 
 sudo nixos-rebuild boot --flake "$repository_path#$hostname"
 
-sudo reboot
+echo "Rebuild finished, system restarts now..."
+sleep 1
+
+systemctl reboot
