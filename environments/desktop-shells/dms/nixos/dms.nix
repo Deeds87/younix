@@ -39,17 +39,14 @@
     };
 
     # ------------------------------------ Feature settings
-    enableSystemMonitoring = true; # System monitoring widgets (dgop)
     enableVPN = true; # VPN management widget
     enableDynamicTheming = true; # Wallpaper-based theming (matugen)
     enableAudioWavelength = true; # Audio visualizer (cava)
     enableCalendarEvents = false; # Calendar integration (khal)
-    enableClipboardPaste = true; # Pasting from the clipboard history (wtype)
 
     # --------------------------------------------- Plugins
     plugins = {
       dankKDEConnect.enable = true;
-      powerUsagePlugin.enable = true;
     };
 
   };
