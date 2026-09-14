@@ -26,7 +26,9 @@
   # - nixpkgs:                  Source of nix packages
   # - home-manager:             Source of home-manager
   # - zen-browser:              Zen-Browser flake
+  # - dms:                      Dank Material Shell
   # - dms-plugin-registry:      DMS-Plugin-Registry flake
+  # - helix:                    Helix editor flake
 
   inputs =
 
@@ -55,6 +57,12 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
+      # Dank Material Shell -------------------------------
+      dms = {
+        url = "github:AvengeMedia/DankMaterialShell/stable";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
       # DMS Plugins ---------------------------------------
 
       dms-plugin-registry = {
@@ -78,7 +86,6 @@
   # - self:              The flake itself
   # - nixpkgs:           Nix packages input
   # - home-manager:      Home-Manager input
-  # - nixvim:            nixvim input
 
   outputs =
 
