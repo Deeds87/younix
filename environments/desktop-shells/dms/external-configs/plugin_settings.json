@@ -1,0 +1,9 @@
+{
+  "powerUsagePlugin": {
+    "enabled": false
+  },
+  "dankKDEConnect": {
+    "enabled": true,
+    "selectedDeviceId": "b7855d0f1a6b44bd85bc27e382a1115e"
+  }
+}
