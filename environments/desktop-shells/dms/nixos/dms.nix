@@ -47,7 +47,6 @@
     # --------------------------------------------- Plugins
     plugins = {
       dankKDEConnect.enable = true;
-      powerUsagePlugin.enable = true;
     };
 
   };
