@@ -165,6 +165,20 @@ let
     initActions = [ ];
   };
 
+  # ------------------------------------------ Dankcalendar
+
+  # Import entrypoints
+  dankcalendar = import ./../../software/gui/dankcalendar;
+
+  # Create context aware module lists
+  dankcalendarComponent = {
+    nixosModules = dankcalendar.nixosModules;
+
+    hmModules = dankcalendar.hmModules;
+
+    initActions = [ ];
+  };
+
 in
 
 {
@@ -208,6 +222,10 @@ in
     # ----------- ----------------------------- Zen-Browser
 
     (composeComponent zenBrowserComponent)
+
+    # ---------------------------------------- Dankcalendar
+
+    (composeComponent dankcalendarComponent)
 
   ];
 
