@@ -149,6 +149,20 @@ let
     initActions = [ ];
   };
 
+  # -------------------------------------------------- DGOP
+
+  # Import entrypoints
+  dgop = import ./../../software/cli/dgop;
+
+  # Create context aware module lists
+  dgopComponent = {
+    nixosModules = dgop.nixosModules;
+
+    hmModules = dgop.hmModules;
+
+    initActions = [ ];
+  };
+
 in
 
 {
@@ -188,6 +202,10 @@ in
     # ----------- ------------------------------------- ZSH
 
     (composeComponent zshComponent)
+
+    # ----------- ------------------------------------ DGOP
+
+    (composeComponent dgopComponent)
 
   ];
 
