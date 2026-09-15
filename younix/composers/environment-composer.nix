@@ -83,7 +83,7 @@ let
       # External DMS settings
       {
         action = "copy";
-        source = ./../../environments/desktop-shells/dms/external-configs;
+        source = ./../../environments/desktop-shells/dms/external-configs/DankMaterialShell;
         destination = [ ".config/DankMaterialShell" ];
       }
 
