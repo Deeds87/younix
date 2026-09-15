@@ -28,6 +28,7 @@
   # - zen-browser:              Zen-Browser flake
   # - dms:                      Dank Material Shell
   # - dms-plugin-registry:      DMS-Plugin-Registry flake
+  # - dankcalendar:             Dankcalendar flake
   # - helix:                    Helix editor flake
 
   inputs =
@@ -44,14 +45,12 @@
       nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
 
       # Home-Manager --------------------------------------
-
       home-manager = {
         url = "github:nix-community/home-manager";
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
       # Zen-Browser ---------------------------------------
-
       zen-browser = {
         url = "github:youwen5/zen-browser-flake";
         inputs.nixpkgs.follows = "nixpkgs";
@@ -67,6 +66,12 @@
 
       dms-plugin-registry = {
         url = "github:AvengeMedia/dms-plugin-registry";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
+      # Dankcalendar --------------------------------------
+      dcal = {
+        url = "github:AvengeMedia/dankcalendar";
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
