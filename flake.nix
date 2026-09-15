@@ -29,6 +29,7 @@
   # - dms:                      Dank Material Shell
   # - dms-plugin-registry:      DMS-Plugin-Registry flake
   # - dankcalendar:             Dankcalendar flake
+  # - dgop:                     DGOP flake
   # - helix:                    Helix editor flake
 
   inputs =
@@ -72,6 +73,12 @@
       # Dankcalendar --------------------------------------
       dcal = {
         url = "github:AvengeMedia/dankcalendar";
+        inputs.nixpkgs.follows = "nixpkgs";
+      };
+
+      # dgop ----------------------------------------------
+      dgop = {
+        url = "github:AvengeMedia/dgop";
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
