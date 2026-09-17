@@ -51,6 +51,20 @@ let
   # imports, context aware module lists as well as a list of initial actions.
   #
 
+  # ------------------------------------------------ Nixvim
+
+  # Import entrypoints
+  nixvim = import ./../../software/tui/nixvim;
+
+  # Create context aware module lists
+  nixvimComponent = {
+    nixosModules = nixvim.nixosModules;
+
+    hmModules = nixvim.hmModules;
+
+    initActions = [ ];
+  };
+
   # ------------------------------------------------- Helix
 
   # Import entrypoints
@@ -104,6 +118,10 @@ in
   #
 
   imports = [
+
+    # ---------------------------------------------- Nixvim
+
+    (composeComponent nixvimComponent)
 
     # ----------- ----------------------------------- Helix
 
