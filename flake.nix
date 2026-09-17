@@ -30,7 +30,9 @@
   # - dms-plugin-registry:      DMS-Plugin-Registry flake
   # - dankcalendar:             Dankcalendar flake
   # - dgop:                     DGOP flake
+  # - base46                    Base46 theme (neovim)
   # - helix:                    Helix editor flake
+  # - nixvim                    Nixvim flake
 
   inputs =
 
@@ -82,10 +84,21 @@
         inputs.nixpkgs.follows = "nixpkgs";
       };
 
+      # base46 --------------------------------------------
+      base46 = {
+        url = "github:AvengeMedia/base46";
+        flake = false;
+      };
+
       # Helix ---------------------------------------------
       helix = {
         url = "github:helix-editor/helix/master";
         inputs.nixpkgs.follows = "nixpkgs";
+      };
+
+      # Nixvim --------------------------------------------
+      nixvim = {
+        url = "github:nix-community/nixvim";
       };
 
     };
@@ -105,6 +118,7 @@
       self,
       nixpkgs,
       home-manager,
+      nixvim,
       ...
     }:
 
@@ -143,6 +157,11 @@
           # Enable Home-Manager as a NixOS module
           home-manager.nixosModules.home-manager
           {
+
+            # Modules shared with all home-manager users
+            home-manager.sharedModules = [
+              nixvim.homeManagerModules.nixvim
+            ];
 
             # Pass the flake context to Home-Manager modules.
             # This allows modules to access the current flake
