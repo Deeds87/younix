@@ -87,6 +87,12 @@ let
         destination = [ ".config/DankMaterialShell" ];
       }
 
+      {
+        action = "copy";
+        source = ./../../environments/desktop-shells/dms/external-configs/MimeApps;
+        destination = [ ".config" ];
+      }
+
       # Screenshot path
       {
         action = "write-file";
