@@ -4,6 +4,8 @@
   "matugenContrast": 0.25,
   "cornerRadius": 12,
   "touchpadDisableOnExternalMouse": true,
+  "showWeekNumber": true,
+  "calendarBackend": "dankcal",
   "barElevationEnabled": false,
   "blurEnabled": true,
   "controlCenterShowMicPercent": true,
@@ -70,6 +72,7 @@
   "workspaceOccupiedCustomColor": "#0288d1",
   "appsDockColorizeActive": true,
   "centeringMode": "geometric",
+  "clockDateFormat": "ddd dd.MM.yy",
   "appDrawerSectionViewModes": {
     "apps": "list"
   },
@@ -119,6 +122,9 @@
   "fontFamily": "Inter",
   "monoFontFamily": "JetBrainsMono Nerd Font",
   "fontWeight": 700,
+  "acProfileName": "2",
+  "batteryProfileName": "1",
+  "batteryAutoPowerSaver": true,
   "lockBeforeSuspend": true,
   "matugenTemplateHyprland": false,
   "matugenTemplateMangowc": false,
@@ -272,7 +278,9 @@
           "showAudioPercent": false,
           "showMicIcon": false,
           "showMicPercent": false,
-          "showPrinterIcon": false
+          "showPrinterIcon": false,
+          "showBatteryIcon": false,
+          "showDoNotDisturbIcon": false
         },
         {
           "id": "keyboard_layout_name",
@@ -372,15 +380,16 @@
       "islandSatelliteTransparency": 0.5,
       "islandSatellitePosition": "edges",
       "islandSatelliteGap": 48,
-      "islandSpringMass": 0.25,
-      "islandSpringStiffness": 560,
-      "islandSpringDamping": 50,
+      "islandSpringMass": 1,
+      "islandSpringStiffness": 1200,
+      "islandSpringDamping": 100,
       "islandSatelliteSwoopRadius": 14,
       "islandFloating": false,
       "islandUseOverlayLayer": false,
       "islandOuterGap": 2,
       "islandAlongOffset": 0,
-      "islandNotificationBadgeClearOnOpen": false
+      "islandNotificationBadgeClearOnOpen": false,
+      "islandCompactThickness": 36
     }
   ],
   "desktopClockCustomColor": {
