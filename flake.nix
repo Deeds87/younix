@@ -160,7 +160,7 @@
 
             # Modules shared with all home-manager users
             home-manager.sharedModules = [
-              nixvim.homeManagerModules.nixvim
+              nixvim.homeModules.nixvim
             ];
 
             # Pass the flake context to Home-Manager modules.
