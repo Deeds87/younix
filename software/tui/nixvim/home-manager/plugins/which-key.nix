@@ -44,15 +44,15 @@
 
         # ------------------------------------------ Window
         win = {
-          border = "solid";
+          border = "single";
           padding = [
             2
             2
             2
             2
           ];
-          title = true;
-          title_pos = "center";
+          # title = true;
+          # title_pos = "center";
           no_overlap = true;
         };
 
@@ -95,6 +95,31 @@
             __unkeyed-1 = "<leader>e";
             group = "Filemanager (CWD)";
             icon = " ";
+          }
+          {
+            __unkeyed-1 = "<leader><space>";
+            group = "Find Files";
+            icon = "󰍉 ";
+          }
+          {
+            __unkeyed-1 = "<leader>q";
+            group = "Quit";
+            icon = "󰅖 ";
+          }
+          {
+            __unkeyed-1 = "<leader>w";
+            group = "Write/Save";
+            icon = "󰉉 ";
+          }
+          {
+            __unkeyed-1 = "<leader>e";
+            group = "Filemanager (CWD)";
+            icon = " ";
+          }
+          {
+            __unkeyed-1 = "<leader>z";
+            group = "Zen Mode";
+            icon = "󰰷 ";
           }
         ];
 
