@@ -5,6 +5,13 @@
 # Description:
 # Helix - Vim like modal editor.
 #
+# Dependencies:
+# Yazi    - Filemanager
+# Lazygit - Git frontend
+# Kitty   - Terminal emulator
+#
+# These programs has to be installed when using the given keymaps.
+#
 # #############################################################################
 
 {
@@ -112,15 +119,14 @@ in
             "collapse_selection"
             "keep_primary_selection"
           ];
-          # "A-s" = ":w";
-          # "A-q" = ":q";
-          # "A-w" = ":bc";
-          # "C-," = ":bp";
-          # "C-." = ":bn";
+          "S-tab" = ":bp"; # Previous buffer
+          "tab" = ":bn"; # Next buffer
 
           # Space mode (leader)----------------------------
           space = {
             space = "file_picker";
+
+            # Open Yazi filemanager
             e = [
               ":sh rm -f /tmp/unique-ca1ea106"
               ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-ca1ea106"
@@ -130,38 +136,22 @@ in
               ":set mouse false"
               ":set mouse true"
             ];
+
+            # Open Lazygit
             l = [
               ":write-all"
               ":noop %sh{kitty @ launch --type=overlay --wait-for-child-to-exit --cwd=current lazygit}"
               ":redraw"
               ":reload-all"
             ];
-            w = ":w";
-            q = ":q";
           };
         };
 
         # Insert mode -------------------------------------
-        insert = {
-          # "C-[" = "normal_mode";
-          # "A-s" = [
-          #   ":w"
-          #   "normal_mode"
-          # ];
-          # "C-," = ":bp";
-          # "C-." = ":bn";
-        };
+        insert = { };
 
         # Select mode -------------------------------------
-        select = {
-          # "C-[" = "normal_mode";
-          # "A-s" = [
-          #   ":w"
-          #   "normal_mode"
-          # ];
-          # "C-," = ":bp";
-          # "C-." = ":bn";
-        };
+        select = { };
       };
     };
 
