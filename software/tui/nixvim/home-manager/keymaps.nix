@@ -17,39 +17,24 @@
     # GENERAL =================================================================
 
     # --------------------------------------- Save and quit
-    # Quit (all)
+    # Quit all
     {
       mode = "n";
-      key = "<leader>qa";
+      key = "<leader>q";
       action = ":confirm qa<CR>";
       options = {
         desc = "Quit all";
-      };
-    }
-    {
-      mode = "n";
-      key = "<leader>qw";
-      action = ":confirm q<CR>";
-      options = {
-        desc = "Quit current window";
       };
     }
 
     # Write
     {
       mode = "n";
-      key = "<leader>wa";
-      action = ":wa<CR>";
-      options = {
-        desc = "Save all buffers";
-      };
-    }
-    {
-      mode = "n";
-      key = "<leader>wb";
+      key = "<leader>w";
       action = ":w<CR>";
       options = {
-        desc = "Save current buffer";
+        desc = "Save all buffers";
+        silent = true;
       };
     }
 
@@ -96,14 +81,50 @@
       };
     }
 
-    # -------------------------------------------- Controls
-    # Close buffer
+    # WINDOWS =================================================================
+
+    # ------------------------------------------ Navigation
+    # Window left
     {
       mode = "n";
-      key = "<leader>bd";
-      action = ":confirm bdelete<CR>";
+      key = "<C-h>";
+      action = "<C-w>h";
       options = {
-        desc = "Close current buffer";
+        desc = "Go to Left Window";
+        silent = true;
+      };
+    }
+
+    # Window down
+    {
+      mode = "n";
+      key = "<C-j>";
+      action = "<C-w>j";
+      options = {
+        desc = "Go to Lower Window";
+        silent = true;
+      };
+    }
+
+    # Window up
+    {
+      mode = "n";
+      key = "<C-k>";
+      action = "<C-w>k";
+      options = {
+        desc = "Go to Upper Window";
+        silent = true;
+      };
+    }
+
+    # Window right
+    {
+      mode = "n";
+      key = "<C-l>";
+      action = "<C-w>l";
+      options = {
+        desc = "Go to Right Window";
+        silent = true;
       };
     }
 
