@@ -196,7 +196,7 @@ in
           command = "nixd";
           args = [ "--semantic-tokens=true" ];
 
-          config.nixd = {
+          config = {
             nixpkgs.expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }";
             formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
 
