@@ -32,6 +32,8 @@ in
   programs.helix = {
 
     enable = true;
+
+    # Use package from master branch
     package = inputs.helix.packages."${pkgs.stdenv.hostPlatform.system}".helix;
 
     extraPackages = with pkgs; [
@@ -45,8 +47,8 @@ in
       # THEME =================================================================
 
       theme = {
-        light = "catppuccin_latte";
-        dark = "catppuccin_mocha";
+        light = "ayu_light";
+        dark = "ayu_dark";
       };
 
       # GENERRAL SETTINGS =====================================================
@@ -55,11 +57,22 @@ in
         scrolloff = 10;
         line-number = "relative";
         color-modes = true;
+        undercurl = true;
+        cursorline = true;
         cursor-shape = {
           normal = "block";
           insert = "bar";
           select = "underline";
         };
+        gutters = [
+          "diagnostics"
+          "spacer"
+          "code-action-hint"
+          "spacer"
+          "line-numbers"
+          "spacer"
+          "diff"
+        ];
 
         file-picker = {
           git-ignore = false;
@@ -93,6 +106,13 @@ in
             "file-name"
             "read-only-indicator"
             "file-modification-indicator"
+          ];
+          right = [
+            "diagnostics"
+            "selections"
+            "register"
+            "position"
+            "file-encoding"
           ];
         };
 
