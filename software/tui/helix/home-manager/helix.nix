@@ -12,6 +12,8 @@
 #
 # These programs has to be installed when using the given keymaps.
 #
+# TODO: Datei aufteilen (keymaps, options, lsp, usw.)
+#
 # #############################################################################
 
 {
@@ -40,6 +42,7 @@ in
       nixd # LSP for Nix
       nixfmt # Formatter for Nix
       markdown-oxide # LSP for Markdown
+      simple-completion-language-server
     ];
 
     settings = {
@@ -192,7 +195,10 @@ in
         }
         {
           name = "markdown";
-          language-servers = [ "markdown-oxide" ];
+          language-servers = [
+            "markdown-oxide"
+            "simple-completion-language-server"
+          ];
         }
       ];
 
@@ -200,6 +206,15 @@ in
       language-server = {
         markdown-oxide = {
           command = "markdown-oxide";
+        };
+
+        simple-completion-language-server = {
+          command = "simple-completion-language-server";
+          config = {
+            feature_words = false;
+            feature_snippets = true;
+            snippets_first = true;
+          };
         };
 
         nixd = {
@@ -220,4 +235,24 @@ in
       };
     };
   };
+
+  home.file.".config/helix/external-snippets.toml".text = ''
+    [[sources]]
+    name = "friendly-snippets"
+    git = "https://github.com/rafamadriz/friendly-snippets.git"
+
+    [[sources.paths]]
+    scope = [ "markdown" ]
+    path = "snippets/markdown.json"
+  '';
+
+  home.activation.fetchSnippets = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    export PATH="${
+      lib.makeBinPath [
+        pkgs.git
+        pkgs.simple-completion-language-server
+      ]
+    }:$PATH"
+    ${pkgs.simple-completion-language-server}/bin/simple-completion-language-server fetch-external-snippets
+  '';
 }
