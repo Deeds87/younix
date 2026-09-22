@@ -32,6 +32,20 @@
           "S-tab" = ":bp"; # Previous buffer
           "tab" = ":bn"; # Next buffer
 
+          # ------------------------------------- Movements
+          "A-down" = [
+            "extend_to_line_bounds"
+            "delete_selection"
+            "paste_after"
+          ];
+
+          "A-up" = [
+            "extend_to_line_bounds"
+            "delete_selection"
+            "move_line_up"
+            "paste_before"
+          ];
+
           # SPACE MODE ========================================================
 
           space = {
@@ -68,7 +82,23 @@
 
         # SELECT MODE =========================================================
 
-        select = { };
+        select = {
+
+          # ------------------------------------- Movements
+          "A-down" = [
+            "extend_to_line_bounds"
+            "delete_selection"
+            "paste_after"
+          ];
+
+          "A-up" = [
+            "extend_to_line_bounds"
+            "delete_selection"
+            "move_line_up"
+            "paste_before"
+          ];
+
+        };
 
       };
 
