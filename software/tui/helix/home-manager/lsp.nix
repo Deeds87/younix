@@ -64,9 +64,14 @@ in
         simple-completion-language-server = {
           command = "simple-completion-language-server";
           config = {
-            feature_words = false;
-            feature_snippets = true;
-            snippets_first = true;
+            feature_words = false; # enable completion by word
+            feature_snippets = true; # enable snippets
+            snippets_first = true; # completions will return before snippets by default
+            case_sensitive = false; # when true, only exact-case matches are suggested; when false, exact-case matches are just prioritized first
+            snippets_inline_by_word_tail = false; # suggest snippets by WORD tail, for example text `xsq|` become `x^2|` when snippet `sq` has body `^2`
+            feature_unicode_input = false; # enable "unicode input"
+            feature_paths = false; # enable path completion
+            feature_citations = false; # enable citation completion (only on `citation` feature enabled)
           };
         };
 
