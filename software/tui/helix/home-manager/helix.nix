@@ -132,127 +132,82 @@ in
         };
       };
 
-      # KEYBINDINGS ===========================================================
+      # LANGUAGE SERVERS ========================================================
 
-      keys = {
+      languages = {
 
-        # Normal mode -------------------------------------
-        normal = {
-          esc = [
-            "collapse_selection"
-            "keep_primary_selection"
-          ];
-          "S-tab" = ":bp"; # Previous buffer
-          "tab" = ":bn"; # Next buffer
-
-          # Space mode (leader)----------------------------
-          space = {
-            space = "file_picker";
-
-            # Open Yazi filemanager
-            e = [
-              ":sh rm -f /tmp/unique-ca1ea106"
-              ":insert-output yazi '%{buffer_name}' --chooser-file=/tmp/unique-ca1ea106"
-              ":sh printf '\\x1b[?1049h\\x1b[?2004h' > /dev/tty"
-              ":open %sh{cat /tmp/unique-ca1ea106}"
-              ":redraw"
-              ":set mouse false"
-              ":set mouse true"
+        # Languages -----------------------------------------
+        language = [
+          {
+            name = "nix";
+            auto-format = true;
+            language-servers = [ "nixd" ];
+            formatter = {
+              command = "${lib.getExe pkgs.nixfmt}";
+              args = [ "-" ];
+            };
+          }
+          {
+            name = "markdown";
+            language-servers = [
+              "markdown-oxide"
+              "simple-completion-language-server"
             ];
+          }
+        ];
 
-            # Open Lazygit
-            l = [
-              ":write-all"
-              ":noop %sh{kitty @ launch --type=overlay --wait-for-child-to-exit --cwd=current lazygit}"
-              ":redraw"
-              ":reload-all"
-            ];
+        # Language servers ----------------------------------
+        language-server = {
+          markdown-oxide = {
+            command = "markdown-oxide";
           };
-        };
 
-        # Insert mode -------------------------------------
-        insert = { };
-
-        # Select mode -------------------------------------
-        select = { };
-      };
-    };
-
-    # LANGUAGE SERVERS ========================================================
-
-    languages = {
-
-      # Languages -----------------------------------------
-      language = [
-        {
-          name = "nix";
-          auto-format = true;
-          language-servers = [ "nixd" ];
-          formatter = {
-            command = "${lib.getExe pkgs.nixfmt}";
-            args = [ "-" ];
+          simple-completion-language-server = {
+            command = "simple-completion-language-server";
+            config = {
+              feature_words = false;
+              feature_snippets = true;
+              snippets_first = true;
+            };
           };
-        }
-        {
-          name = "markdown";
-          language-servers = [
-            "markdown-oxide"
-            "simple-completion-language-server"
-          ];
-        }
-      ];
 
-      # Language servers ----------------------------------
-      language-server = {
-        markdown-oxide = {
-          command = "markdown-oxide";
-        };
+          nixd = {
+            command = "nixd";
+            args = [ "--semantic-tokens=true" ];
 
-        simple-completion-language-server = {
-          command = "simple-completion-language-server";
-          config = {
-            feature_words = false;
-            feature_snippets = true;
-            snippets_first = true;
-          };
-        };
+            config = {
+              nixpkgs.expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }";
+              formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
 
-        nixd = {
-          command = "nixd";
-          args = [ "--semantic-tokens=true" ];
+              options = {
+                nixos.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.${hostname}.options";
 
-          config = {
-            nixpkgs.expr = "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs { }";
-            formatting.command = [ "${lib.getExe pkgs.nixfmt}" ];
-
-            options = {
-              nixos.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.${hostname}.options";
-
-              home-manager.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.${hostname}.options.home-manager.users.type.getSubOptions []";
+                home-manager.expr = "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.${hostname}.options.home-manager.users.type.getSubOptions []";
+              };
             };
           };
         };
       };
     };
+
+    home.file.".config/helix/external-snippets.toml".text = ''
+      [[sources]]
+      name = "friendly-snippets"
+      git = "https://github.com/rafamadriz/friendly-snippets.git"
+
+      [[sources.paths]]
+      scope = [ "markdown" ]
+      path = "snippets/markdown.json"
+    '';
+
+    home.activation.fetchSnippets = lib.hm.dag.entryAfter [ "installPackages" ] ''
+      export PATH="${
+        lib.makeBinPath [
+          pkgs.git
+          pkgs.simple-completion-language-server
+        ]
+      }:$PATH"
+      ${pkgs.simple-completion-language-server}/bin/simple-completion-language-server fetch-external-snippets
+    '';
   };
-
-  home.file.".config/helix/external-snippets.toml".text = ''
-    [[sources]]
-    name = "friendly-snippets"
-    git = "https://github.com/rafamadriz/friendly-snippets.git"
-
-    [[sources.paths]]
-    scope = [ "markdown" ]
-    path = "snippets/markdown.json"
-  '';
-
-  home.activation.fetchSnippets = lib.hm.dag.entryAfter [ "installPackages" ] ''
-    export PATH="${
-      lib.makeBinPath [
-        pkgs.git
-        pkgs.simple-completion-language-server
-      ]
-    }:$PATH"
-    ${pkgs.simple-completion-language-server}/bin/simple-completion-language-server fetch-external-snippets
-  '';
 }
