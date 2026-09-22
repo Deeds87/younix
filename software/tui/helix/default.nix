@@ -14,6 +14,9 @@
   hmModules = [
 
     ./home-manager/helix.nix
+    ./home-manager/keymaps.nix
+    ./home-manager/lsp.nix
+    ./home-manager/completions.nix
 
   ];
 
