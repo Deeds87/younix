@@ -41,12 +41,6 @@
       restartIfChanged = true; # Auto-restart dms.service when dms-shell changes
     };
 
-    # ------------------------------------ Feature settings
-    enableVPN = true; # VPN management widget
-    enableDynamicTheming = true; # Wallpaper-based theming (matugen)
-    enableAudioWavelength = true; # Audio visualizer (cava)
-    enableCalendarEvents = false; # Calendar integration (khal)
-
     # --------------------------------------------- Plugins
     plugins = {
       dankKDEConnect.enable = true;
