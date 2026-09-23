@@ -11,7 +11,7 @@
 
 let
 
-  colorpalette = "blue";
+  colorpalette = "terminal";
 
 in
 
@@ -188,33 +188,22 @@ in
 
       palettes = {
 
+        terminal = {
+          color_05 = "bright-red";
+          color_07 = "bright-yellow";
+          color_08 = "bright-blue";
+          color_09 = "bright-green";
+          color_14 = "bright-cyan";
+          color_26 = "black";
+        };
+
         purple = {
-          # color_01 = "#f6e1f2"; # rosewater
-          # color_02 = "#eecdf0"; # flamingo
-          # color_03 = "#e6bdf2"; # pink
-          # color_04 = "#c8a2f8"; # mauve
-          color_05 = "#d28aff"; # red
-          # color_06 = "#b47bd6"; # maroon
-          color_07 = "#b892ff"; # peach
-          color_08 = "#c7a6ff"; # yellow
-          color_09 = "#a98cff"; # green
-          # color_10 = "#9a7cff"; # teal
-          # color_11 = "#8b6cff"; # sky
-          # color_12 = "#7c5cff"; # sapphire
-          # color_13 = "#6d4cff"; # blue
-          color_14 = "#d6c2ff"; # lavender
-          # color_15 = "#e6ddff"; # text
-          # color_16 = "#cfc4f2"; # subtext1
-          # color_17 = "#b8addb"; # subtext0
-          # color_18 = "#9f94c7"; # overlay2
-          # color_19 = "#867bb0"; # overlay1
-          # color_20 = "#6d6498"; # overlay0
-          # color_21 = "#5a5180"; # surface2
-          # color_22 = "#463c68"; # surface1
-          # color_23 = "#322a50"; # surface0
-          # color_24 = "#1b1628"; # base
-          # color_25 = "#161122"; # mantle
-          color_26 = "#100c1b"; # crust
+          color_05 = "#d28aff";
+          color_07 = "#b892ff";
+          color_08 = "#c7a6ff";
+          color_09 = "#a98cff";
+          color_14 = "#d6c2ff";
+          color_26 = "#100c1b";
         };
 
         green = {
