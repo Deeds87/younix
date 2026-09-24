@@ -142,6 +142,14 @@
         example = "alice@example.com";
       };
 
+      # Config path ---------------------------------------
+      configPath = lib.mkOption {
+        type = lib.types.str;
+        default = "/home/nixos/.younix";
+        description = "Path to local YouNIX configuration";
+        example = "/home/alice/.younix";
+      };
+
     };
 
     # ENVIRONMENT =============================================================
