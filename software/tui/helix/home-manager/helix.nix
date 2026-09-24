@@ -84,7 +84,7 @@
         };
 
         # -------------------------------------- Bufferline
-        bufferline = "always";
+        bufferline = "multiple";
 
         # -------------------------------------- Statusline
         statusline = {
