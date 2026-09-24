@@ -71,6 +71,8 @@
     fullname = "John Doe";
     # Email is used for git email
     email = "user@localhost";
+    # Local configuration path
+    configPath = "/home/nixos/.younix";
 
   };
 
