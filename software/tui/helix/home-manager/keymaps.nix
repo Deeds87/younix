@@ -33,13 +33,13 @@
           "tab" = ":bn"; # Next buffer
 
           # ------------------------------------- Movements
-          "A-down" = [
+          "C-down" = [
             "extend_to_line_bounds"
             "delete_selection"
             "paste_after"
           ];
 
-          "A-up" = [
+          "C-up" = [
             "extend_to_line_bounds"
             "delete_selection"
             "move_line_up"
@@ -85,13 +85,13 @@
         select = {
 
           # ------------------------------------- Movements
-          "A-down" = [
+          "C-down" = [
             "extend_to_line_bounds"
             "delete_selection"
             "paste_after"
           ];
 
-          "A-up" = [
+          "C-up" = [
             "extend_to_line_bounds"
             "delete_selection"
             "move_line_up"
