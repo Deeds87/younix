@@ -2,17 +2,27 @@
 
 set -euo pipefail
 
+# -----------------------------------------------------------------------------
+# Installer dependencies
+# -----------------------------------------------------------------------------
+
+if [[ -z "${YOUNIX_INSTALLER_ENV:-}" ]]; then
+    export YOUNIX_INSTALLER_ENV=1
+    exec nix-shell -p git xdg-user-dirs --run "$0"
+fi
+
 # =============================================================================
 # YouNIX Installer
 #
 # Phase 1  -  Reading system information
 # Phase 2  -  Print detected system information
-# Phase 3  -  Set configuration values
-# Phase 4  -  Personal repository setup
-# Phase 5  -  Create `younix-config.nix` file
-# Phase 6  -  Copy files into personal repository
-# Phase 7  -  Finish repository setup
-# Phase 8  -  Rebuild and reboot the system
+# Pahse 3  -  Creating user directories
+# Phase 4  -  Set configuration values
+# Phase 5  -  Personal repository setup
+# Phase 6  -  Create `younix-config.nix` file
+# Phase 7  -  Copy files into personal repository
+# Phase 8  -  Finish repository setup
+# Phase 9  -  Rebuild and reboot the system
 #
 # =============================================================================
 
@@ -21,7 +31,7 @@ print_header() {
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-YouNIX Installation ($1 / 8)
+YouNIX Installation ($1 / 9)
 
 Phase $1: $2
 
@@ -121,12 +131,35 @@ esac
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 3: Set configuration
+# Phase 3: Creating user directories
 # -----------------------------------------------------------------------------
 
 clear
 
-print_header 3 "Set configuration values"
+print_header 3 "Create user directories"
+
+xdg-user-dirs-update
+
+echo "Created user directories:"
+xdg-user-dir DESKTOP
+xdg-user-dir DOCUMENTS
+xdg-user-dir DOWNLOAD
+xdg-user-dir MUSIC
+xdg-user-dir PICTURES
+xdg-user-dir PROJECTS
+xdg-user-dir PUBLICSHARE
+xdg-user-dir TEMPLATES
+xdg-user-dir VIDEOS
+
+sleep 1
+
+# -----------------------------------------------------------------------------
+# Phase 4: Set configuration
+# -----------------------------------------------------------------------------
+
+clear
+
+print_header 4 "Set configuration values"
 
 # ---------------------- Change detected system information
 if [[ "$confirm" != "" && "$confirm" != "y" && "$confirm" != "Y" &&
@@ -342,7 +375,7 @@ fi
 # ----------------------------- Final configuration summary
 clear
 
-print_header 3 "Configuration summary."
+print_header 4 "Configuration summary."
 
 echo
 
@@ -391,112 +424,34 @@ esac
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 4: Personal repository setup
+# Phase 5: Personal repository setup
 # -----------------------------------------------------------------------------
 
 clear
 
-print_header 4 "Personal repository setup"
+print_header 5 "Personal repository setup"
 
 echo
 
-# ---------------------------------- Basic repository setup
-echo "Choose repository type:"
-echo "  1) remote repository"
-echo "  2) local repository"
-read -r -p "Selection [1]: " input
-
-case "$input" in
-"" | 1)
-    repository_source="remote"
-
-    read -r -p "Repository URL: " repository_url
-    read -r -p "Repository path: " repository_path
-    ;;
-2)
-    repository_source="local"
-
-    read -r -p "Local repository path: " repository_path
-    ;;
-*)
-    echo "Invalid selection."
-    exit 1
-    ;;
-esac
+read -r -p "Local repository path: " repository_path
 
 echo
+echo "Creating repository directory:"
+echo "  $repository_path"
 
-case "$repository_source" in
+mkdir -p "$repository_path"
 
-# ---------------------------------------- Local repository
-local)
-    if [[ -e "$repository_path" ]]; then
-        if [[ ! -d "$repository_path" ]]; then
-            echo "The specified path exists but is not a directory:"
-            echo "  $repository_path"
-            exit 1
-        fi
-
-        if [[ -d "$repository_path/.git" ]]; then
-            echo "Using existing Git repository:"
-            echo "  $repository_path"
-        else
-            echo "The specified path is not a Git repository."
-            echo "Initializing a new Git repository..."
-            git -C "$repository_path" init -b main
-        fi
-    else
-        echo "Creating repository directory:"
-        echo "  $repository_path"
-
-        mkdir -p "$repository_path"
-        git -C "$repository_path" init -b main
-    fi
-    ;;
-
-# --------------------------------------- Remote repository
-remote)
-    if [[ -e "$repository_path" ]]; then
-        echo "The local repository path already exists:"
-        echo "  $repository_path"
-        exit 1
-    fi
-
-    while true; do
-        echo
-        echo "Checking remote repository..."
-
-        if git ls-remote "$repository_url" &>/dev/null; then
-            break
-        fi
-
-        echo
-        echo "The remote repository could not be reached or does not exist."
-        echo
-        read -r -p "Repository URL: " repository_url
-    done
-
-    echo
-    echo "Cloning repository..."
-    git clone "$repository_url" "$repository_path"
-    ;;
-
-*)
-    echo "Invalid repository source."
-    exit 1
-    ;;
-
-esac
+git -C "$repository_path" init -b main
 
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 5: Create `younix-config.nix`
+# Phase 6: Create `younix-config.nix`
 # -----------------------------------------------------------------------------
 
 clear
 
-print_header 5 "Creating younix-config.nix..."
+print_header 6 "Creating younix-config.nix..."
 
 echo
 
@@ -638,12 +593,12 @@ echo "Personal YouNIX configuration created."
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 6: Copy files to user repository
+# Phase 7: Copy files to user repository
 # -----------------------------------------------------------------------------
 
 clear
 
-print_header 6 "Copy files into personal repository"
+print_header 7 "Copy files into personal repository"
 
 echo
 
@@ -669,12 +624,12 @@ tar \
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 7: Finish repository setup
+# Phase 8: Finish repository setup
 # -----------------------------------------------------------------------------
 
 clear
 
-print_header 7 "Finish repository setup"
+print_header 8 "Finish repository setup"
 
 echo
 
@@ -688,21 +643,15 @@ git -C "$repository_path" \
     -c user.email="$email" \
     commit -m "Initial YouNIX configuration"
 
-# ------------- Pushing initial commit to remote repository
-if [[ "$repository_source" == "remote" ]]; then
-    echo "Pushing initial commit ..."
-    git -C "$repository_path" push
-fi
-
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 8: NixOS rebuild and reboot
+# Phase 9: NixOS rebuild and reboot
 # -----------------------------------------------------------------------------
 
 clear
 
-print_header 8 "Rebuild and reboot the system"
+print_header 9 "Rebuild and reboot the system"
 
 echo
 echo "Setup finished. The system will be rebuild and reboot."
