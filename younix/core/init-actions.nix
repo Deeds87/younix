@@ -27,11 +27,17 @@ let
 
     if item.action == "copy" then
       lib.concatMapStringsSep "\n" (destination: ''
-        if [ ! -e "$HOME/${destination}" ]; then
-          mkdir -p "$(dirname "$HOME/${destination}")"
-          cp -r --no-preserve=mode "${item.source}" "$HOME/${destination}"
-          chmod -R u+rwX "$HOME/${destination}"
+        mkdir -p "$HOME/${destination}"
+
+        if [ -d "${item.source}" ]; then
+          cp -rn --no-preserve=mode "${item.source}/." "$HOME/${destination}/"
+        else
+          if [ ! -e "$HOME/${destination}/$(basename "${item.source}")" ]; then
+            cp --no-preserve=mode "${item.source}" "$HOME/${destination}/"
+          fi
         fi
+
+        chmod -R u+rwX "$HOME/${destination}"
       '') item.destination
 
     # Create-Directory action -----------------------------
