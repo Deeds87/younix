@@ -24,43 +24,47 @@ in
 
   programs.helix = {
 
-    # LANGUAGES =============================================================
+    # LANGUAGES ===============================================================
 
     languages = {
 
       language = [
 
-        # ------------------------------------------- Nix
+        # --------------------------------------------- Nix
         {
           name = "nix";
           auto-format = true;
-          language-servers = [ "nixd" ];
+          language-servers = [
+            "nixd"
+            "hx-lsp"
+          ];
           formatter = {
             command = "${lib.getExe pkgs.nixfmt}";
             args = [ "-" ];
           };
         }
 
-        # -------------------------------------- Markdown
+        # ---------------------------------------- Markdown
         {
           name = "markdown";
           language-servers = [
             "markdown-oxide"
             "simple-completion-language-server"
+            "hx-lsp"
           ];
         }
       ];
 
-      # LANGUAGE SERVERS ====================================================
+      # LANGUAGE SERVERS ======================================================
 
       language-server = {
 
-        # -------------------------------------- Markdown
+        # ---------------------------------------- Markdown
         markdown-oxide = {
           command = "markdown-oxide";
         };
 
-        # ----------------------------------- Completions
+        # ------------------------------------- Completions
         simple-completion-language-server = {
           command = "simple-completion-language-server";
           config = {
@@ -75,7 +79,7 @@ in
           };
         };
 
-        # ------------------------------------------- Nix
+        # --------------------------------------------- Nix
         nixd = {
           command = "nixd";
           args = [ "--semantic-tokens=true" ];
@@ -91,6 +95,15 @@ in
             };
           };
 
+        };
+
+        # -------------------------------------------- Misc
+        hx-lsp = {
+          command = "hx-lsp";
+          config = {
+            markdown = true;
+            documentColor = true;
+          };
         };
 
       };

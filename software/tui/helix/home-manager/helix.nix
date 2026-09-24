@@ -24,6 +24,7 @@
       nixfmt # Formatter for Nix
       markdown-oxide # LSP for Markdown
       simple-completion-language-server # LSP for completions
+      hx-lsp # LSP for snippets, code-actions and document-colors
     ];
 
     # EDITOR CONFIGURATION ====================================================
