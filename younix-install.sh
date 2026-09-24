@@ -432,11 +432,10 @@ clear
 print_header 5 "Personal repository setup"
 
 echo
-
-read -r -p "Local repository path: " repository_path
-
-echo
 echo "Creating repository directory:"
+
+repository_path="/home/$username/.younix"
+
 echo "  $repository_path"
 
 mkdir -p "$repository_path"
@@ -529,6 +528,8 @@ cat >"$repository_path/younix-config.nix" <<EOF
     fullname = "$fullname";
     # Email is used for git email
     email = "$email";
+    # Local configuration path
+    configPath = "$repository_path";
 
   };
 
