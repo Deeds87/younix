@@ -1,7 +1,8 @@
 {
   "currentThemeName": "dynamic",
   "currentThemeCategory": "dynamic",
-  "matugenContrast": 0.25,
+  "matugenScheme": "scheme-smart",
+  "matugenSourceMode": "colorful",
   "cornerRadius": 12,
   "touchpadDisableOnExternalMouse": true,
   "showWeekNumber": true,
@@ -72,7 +73,6 @@
   "workspaceOccupiedCustomColor": "#0288d1",
   "appsDockColorizeActive": true,
   "centeringMode": "geometric",
-  "clockDateFormat": "ddd dd.MM.yy",
   "appDrawerSectionViewModes": {
     "apps": "list"
   },
@@ -120,8 +120,10 @@
   "launcherLogoMode": "os",
   "launcherLogoColorOverride": "primary",
   "fontFamily": "Inter",
-  "monoFontFamily": "JetBrainsMono Nerd Font",
+  "monoFontFamily": "MonaspiceNe NF",
   "fontWeight": 700,
+  "notepadShowLineNumbers": true,
+  "notepadUseCompositorGap": true,
   "acProfileName": "2",
   "batteryProfileName": "1",
   "batteryAutoPowerSaver": true,
@@ -176,28 +178,13 @@
           "id": "launcherButton",
           "enabled": false
         },
-        {
-          "id": "spacer",
-          "enabled": true,
-          "size": 20
-        },
         "workspaceSwitcher",
-        {
-          "id": "spacer",
-          "enabled": true,
-          "size": 50
-        },
         {
           "id": "focusedWindow",
           "enabled": true,
           "focusedWindowSize": 0,
           "focusedWindowCompactMode": true,
           "focusedWindowShowIcon": true
-        },
-        {
-          "id": "spacer",
-          "enabled": true,
-          "size": 20
         }
       ],
       "centerWidgets": [
@@ -213,7 +200,8 @@
         {
           "id": "clock",
           "enabled": true,
-          "clockCompactMode": false
+          "clockCompactMode": false,
+          "clockDateOrder": "timeFirst"
         },
         {
           "id": "spacer",
@@ -227,18 +215,8 @@
       ],
       "rightWidgets": [
         {
-          "id": "spacer",
-          "enabled": true,
-          "size": 20
-        },
-        {
           "id": "clipboard",
           "enabled": true
-        },
-        {
-          "id": "spacer",
-          "enabled": true,
-          "size": 20
         },
         {
           "id": "systemTray",
@@ -250,11 +228,6 @@
           "enabled": true
         },
         {
-          "id": "spacer",
-          "enabled": true,
-          "size": 20
-        },
-        {
           "id": "battery",
           "enabled": true,
           "showBatteryPercentOnlyOnBattery": false,
@@ -263,13 +236,8 @@
           "batteryStyle": "icon",
           "showBatteryPowerCharging": true,
           "showBatteryPowerDischarging": true,
-          "showBatteryTimeOnlyOnBattery": true,
+          "showBatteryTimeOnlyOnBattery": false,
           "showBatteryPercent": false
-        },
-        {
-          "id": "spacer",
-          "enabled": true,
-          "size": 10
         },
         {
           "id": "controlCenterButton",
@@ -286,36 +254,31 @@
           "id": "keyboard_layout_name",
           "enabled": false,
           "keyboardLayoutNameCompactMode": true
-        },
-        {
-          "id": "spacer",
-          "enabled": true,
-          "size": 20
         }
       ],
       "spacing": 4,
       "innerPadding": 0,
-      "bottomGap": 0,
-      "transparency": 0,
+      "bottomGap": 4,
+      "transparency": 0.5,
       "widgetTransparency": 0,
       "squareCorners": false,
       "noBackground": false,
       "maximizeWidgetIcons": true,
       "maximizeWidgetText": false,
-      "removeWidgetPadding": true,
+      "removeWidgetPadding": false,
       "widgetPadding": 8,
       "gothCornersEnabled": false,
       "gothCornerRadiusOverride": false,
-      "gothCornerRadiusValue": 12,
+      "gothCornerRadiusValue": 6,
       "borderEnabled": false,
-      "borderColor": "surfaceText",
+      "borderColor": "primary",
       "borderOpacity": 1,
       "borderThickness": 1,
       "widgetOutlineEnabled": false,
       "widgetOutlineColor": "primary",
       "widgetOutlineOpacity": 1,
       "widgetOutlineThickness": 1,
-      "fontScale": 1.2,
+      "fontScale": 1,
       "iconScale": 1,
       "autoHide": false,
       "autoHideDelay": 250,
@@ -333,7 +296,7 @@
       "shadowColorMode": "text",
       "shadowCustomColor": "#000000",
       "clickThrough": false,
-      "hoverPopouts": false,
+      "hoverPopouts": true,
       "batteryColorMode": "level",
       "hoverPopoutDelay": 150,
       "barInsetPadding": 16,
@@ -376,7 +339,7 @@
       "islandBatteryStyle": "solid",
       "islandSatellitesEnabled": true,
       "islandSatelliteBackground": true,
-      "islandSatelliteGothCorners": true,
+      "islandSatelliteGothCorners": false,
       "islandSatelliteTransparency": 0.5,
       "islandSatellitePosition": "edges",
       "islandSatelliteGap": 48,
@@ -389,7 +352,11 @@
       "islandOuterGap": 2,
       "islandAlongOffset": 0,
       "islandNotificationBadgeClearOnOpen": false,
-      "islandCompactThickness": 36
+      "islandCompactThickness": 36,
+      "islandCornerRadius": 18,
+      "islandReserveThickness": 44,
+      "barLengthPadding": 100,
+      "islandTransparency": 0.5
     }
   ],
   "desktopClockCustomColor": {
