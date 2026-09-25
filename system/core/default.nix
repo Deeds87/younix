@@ -21,6 +21,7 @@
     ./nixos/printing.nix
     ./nixos/security.nix
     ./nixos/ssh.nix
+    ./nixos/swap.nix
   ];
 
   hmModules = [ ];
