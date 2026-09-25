@@ -445,7 +445,12 @@ repository_path="/home/$username/.younix"
 
 echo "  $repository_path"
 
-mkdir -p "$repository_path"
+if id "$username" &>/dev/null; then
+    mkdir -p "$repository_path"
+else
+    sudo mkdir -p "$repository_path"
+    sudo chown "$USER:$(id -gn)" "$repository_path"
+fi
 
 git -C "$repository_path" init -b main
 
@@ -674,4 +679,4 @@ sudo nixos-rebuild boot --flake "$repository_path#$hostname"
 echo "Rebuild finished, system restarts now..."
 sleep 1
 
-systemctl reboot
+sudo systemctl reboot
