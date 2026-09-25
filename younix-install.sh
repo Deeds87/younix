@@ -16,8 +16,8 @@ fi
 #
 # Phase 1  -  Reading system information
 # Phase 2  -  Print detected system information
-# Pahse 3  -  Creating user directories
-# Phase 4  -  Set configuration values
+# Phase 3  -  Set configuration values
+# Pahse 4  -  Creating user directories
 # Phase 5  -  Personal repository setup
 # Phase 6  -  Create `younix-config.nix` file
 # Phase 7  -  Copy files into personal repository
@@ -131,30 +131,7 @@ esac
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 3: Creating user directories
-# -----------------------------------------------------------------------------
-
-clear
-
-print_header 3 "Create user directories"
-
-xdg-user-dirs-update
-
-echo "Created user directories:"
-xdg-user-dir DESKTOP
-xdg-user-dir DOCUMENTS
-xdg-user-dir DOWNLOAD
-xdg-user-dir MUSIC
-xdg-user-dir PICTURES
-xdg-user-dir PROJECTS
-xdg-user-dir PUBLICSHARE
-xdg-user-dir TEMPLATES
-xdg-user-dir VIDEOS
-
-sleep 1
-
-# -----------------------------------------------------------------------------
-# Phase 4: Set configuration
+# Phase 3: Set configuration
 # -----------------------------------------------------------------------------
 
 clear
@@ -367,17 +344,6 @@ read -r -p "Git email: " gitEmail
 
 echo
 
-# Screenshot path
-pictures_path="$(xdg-user-dir PICTURES)"
-screenshot_path="${pictures_path}/Screenshots"
-
-echo "Enter your desired path to save screenshots."
-read -r -p "Screenshot path [$screenshot_path]: " input
-
-if [[ -n "$input" ]]; then
-    screenshot_path="$input"
-fi
-
 # ----------------------------- Final configuration summary
 clear
 
@@ -405,7 +371,6 @@ printf '  %-26s %s\n' "Git email:" "$gitEmail"
 echo
 echo "--------------------------------- Environment"
 printf '  %-26s %s\n' "Desktop:" "$desktop"
-printf '  %-26s %s\n' "Screenshot path:" "$screenshot_path"
 
 echo
 echo "------------------------------------ Features"
@@ -427,6 +392,48 @@ case "$confirm" in
     exit 1
     ;;
 esac
+
+sleep 1
+
+# -----------------------------------------------------------------------------
+# Phase 4: Creating user directories
+# -----------------------------------------------------------------------------
+
+clear
+
+print_header 4 "Create user directories"
+
+user_home="/home/$username"
+
+if id "$username" &>/dev/null; then
+    sudo -u "$username" \
+        env HOME="$user_home" \
+        LANG="$locale" \
+        LC_ALL="$locale" \
+        xdg-user-dirs-update
+else
+    sudo mkdir -p "$user_home"
+    sudo chown "$USER:$(id -gn)" "$user_home"
+
+    HOME="$user_home" \
+        LANG="$locale" \
+        LC_ALL="$locale" \
+        xdg-user-dirs-update
+fi
+
+echo "Created user directories:"
+HOME="$user_home" xdg-user-dir DESKTOP
+HOME="$user_home" xdg-user-dir DOCUMENTS
+HOME="$user_home" xdg-user-dir DOWNLOAD
+HOME="$user_home" xdg-user-dir MUSIC
+HOME="$user_home" xdg-user-dir PICTURES
+HOME="$user_home" xdg-user-dir PROJECTS
+HOME="$user_home" xdg-user-dir PUBLICSHARE
+HOME="$user_home" xdg-user-dir TEMPLATES
+HOME="$user_home" xdg-user-dir VIDEOS
+
+pictures_path="$(HOME="$user_home" xdg-user-dir PICTURES)"
+screenshot_path="${pictures_path}/Screenshots"
 
 sleep 1
 
