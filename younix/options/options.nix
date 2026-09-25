@@ -134,12 +134,28 @@
         example = "Alice Doe";
       };
 
-      # Email ---------------------------------------------
-      email = lib.mkOption {
+      # Git name ------------------------------------------
+      gitName = lib.mkOption {
+        type = lib.types.str;
+        default = "Alice";
+        description = "The name of the git user";
+        example = "Alice";
+      };
+
+      # Git email -----------------------------------------
+      gitEmail = lib.mkOption {
         type = lib.types.str;
         default = "user@localhost";
-        description = "The email address of the primary user.";
+        description = "The email address of the git user.";
         example = "alice@example.com";
+      };
+
+      # Config path ---------------------------------------
+      configPath = lib.mkOption {
+        type = lib.types.str;
+        default = "/home/nixos/.younix";
+        description = "Path to local YouNIX configuration";
+        example = "/home/alice/.younix";
       };
 
     };

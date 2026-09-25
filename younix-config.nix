@@ -67,10 +67,14 @@
     # Main user -------------------------------------------
     # Must be a valid username (no spaces, lowercase, ...)
     username = "john";
-    # Fullname is used for git name
+    # Fullname of the user
     fullname = "John Doe";
-    # Email is used for git email
-    email = "user@localhost";
+    # Git name
+    gitName = "John Doe";
+    # Email used for git
+    gitmail = "user@localhost";
+    # Local configuration path
+    configPath = "/home/nixos/.younix";
 
   };
 
