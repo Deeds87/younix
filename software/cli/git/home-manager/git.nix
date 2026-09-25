@@ -22,8 +22,8 @@ in
     enable = true;
 
     settings.user = {
-      name = user.username;
-      email = user.email;
+      name = user.gitName;
+      email = user.gitEmail;
     };
 
   };

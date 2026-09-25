@@ -350,14 +350,20 @@ esac
 echo
 
 # Full name
-echo "Enter your full name. (It is used for the git configuration)"
+echo "Enter your full name."
 read -r -p "Full name: " fullname
 
 echo
 
+# Git name
+echo "Enter your git username."
+read -r -p "Git username: " gitName
+
+echo
+
 # E-Mail
-echo "Enter your E-Mail address. (It is used for the git configuration)"
-read -r -p "Email: " email
+echo "Enter E-Mail address to use for git."
+read -r -p "Git email: " gitEmail
 
 echo
 
@@ -393,7 +399,8 @@ echo
 echo "-------------------------- User configuration"
 printf '  %-26s %s\n' "Username:" "$username"
 printf '  %-26s %s\n' "Full name:" "$fullname"
-printf '  %-26s %s\n' "Email:" "$email"
+printf '  %-26s %s\n' "Git name:" "$gitName"
+printf '  %-26s %s\n' "Git email:" "$gitEmail"
 
 echo
 echo "--------------------------------- Environment"
@@ -524,10 +531,12 @@ cat >"$repository_path/younix-config.nix" <<EOF
     # Main user -------------------------------------------
     # Must be a valid username (no spaces, lowercase, ...)
     username = "$username";
-    # Fullname is used for git name
+    # Fullname of the user
     fullname = "$fullname";
-    # Email is used for git email
-    email = "$email";
+    # Git name
+    gitName = "$gitName";
+    # Email used for git
+    gitEmail = "$gitEmail";
     # Local configuration path
     configPath = "$repository_path";
 
@@ -640,8 +649,8 @@ echo "Creating initial commit..."
 git -C "$repository_path" add .
 
 git -C "$repository_path" \
-    -c user.name="$fullname" \
-    -c user.email="$email" \
+    -c user.name="$gitName" \
+    -c user.email="$gitEmail" \
     commit -m "Initial YouNIX configuration"
 
 sleep 1
