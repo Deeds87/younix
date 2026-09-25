@@ -628,8 +628,16 @@ echo
 echo "Copying hardware-configuration.nix..."
 sleep 1
 
-cp /etc/nixos/hardware-configuration.nix \
-    "$repository_path/hardware-configuration.nix"
+if [[ -f /etc/nixos/hardware-configuration.nix ]]; then
+    cp /etc/nixos/hardware-configuration.nix \
+        "$repository_path/hardware-configuration.nix"
+elif [[ -f /mnt/etc/nixos/hardware-configuration.nix ]]; then
+    cp /mnt/etc/nixos/hardware-configuration.nix \
+        "$repository_path/hardware-configuration.nix"
+else
+    echo "hardware-configuration.nix not found."
+    exit 1
+fi
 
 # -------------------------------------------- YouNIX files
 echo "Copying YouNIX files ..."
