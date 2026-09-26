@@ -37,6 +37,12 @@ in
       # Path to the home directory of the managed user
       home.homeDirectory = "/home/${username}";
 
+      # XDG user directories
+      xdg.userDirs = {
+        enable = true;
+        createDirectories = true;
+      };
+
       # Home-Manager state version.
       # This is shared with the NixOS state version through the youNIX configuration.
       home.stateVersion = stateVersion;
