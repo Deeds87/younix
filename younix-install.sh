@@ -34,7 +34,7 @@ print_header() {
 
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-YouNIX Installation ($1 / 9)
+YouNIX Installation ($1 / 7)
 
 Phase $1: $2
 
@@ -420,7 +420,7 @@ echo
 echo "Move hardware-configuration.nix"
 
 if [[ "$installation_mode" == "iso" ]]; then
-    nixos-generate-config --root /mnt
+    sudo nixos-generate-config --root /mnt
     hardware_path="/mnt/etc/nixos/hardware-configuration.nix"
 else
     echo
@@ -607,10 +607,9 @@ if [[ "$installation_mode" == "iso" ]]; then
         sudo tar -xf - -C "$repository_path"
 
     echo
-    echo "Create initial commit"
+    echo "Add files"
 
     sudo git -C "$repository_path" add .
-    sudo git -C "$repository_path" commit -m "Initial commit"
 else
     tar \
         --exclude='./.git' \
@@ -621,10 +620,9 @@ else
         tar -xf - -C "$repository_path"
 
     echo
-    echo "Create initial commit"
+    echo "Add files"
 
     git -C "$repository_path" add .
-    git -C "$repository_path" commit -m "Initial commit"
 
 fi
 
