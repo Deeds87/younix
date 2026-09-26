@@ -663,7 +663,9 @@ if [[ "$installation_mode" == "iso" ]]; then
     echo
     echo "Set repository ownership"
     echo
-    sudo chown -R "$username:users /mnt/home/$username/.younix"
+    uid="$(awk -F: -v user="$username" '$1 == user {print $3; exit}' /mnt/etc/passwd)"
+    gid="$(awk -F: '$1 == "users" {print $3; exit}' /mnt/etc/group)"
+    sudo chown -R "$uid:$gid" "/mnt/home/$username/.younix"
     echo "New owner is: $username"
 
     sleep 1
