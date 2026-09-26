@@ -15,7 +15,6 @@
 let
   younixSettings = import ./../../younix-config.nix;
   username = younixSettings.user.username;
-  repositoryPath = younixSettings.user.configPath;
 in
 
 {
@@ -24,14 +23,6 @@ in
 
     # Creates younix namespace
     younix = younixSettings;
-
-    # Set local Repository ownership
-    systemd.tmpfiles.settings."younix-repository" = {
-      "${repositoryPath}".Z = {
-        user = username;
-        group = "users";
-      };
-    };
 
     # Home-Manager ----------------------------------------
     home-manager.users.${username}.imports = [
