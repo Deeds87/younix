@@ -397,23 +397,24 @@ echo "Creating repository directory:"
 
 if [[ "$installation_mode" == "iso" ]]; then
     repository_path="/mnt/home/$username/.younix"
+    sudo mkdir -p "$repository_path"
+    sudo git -C "$repository_path" init -b main
 else
     repository_path="/home/$username/.younix"
+    mkdir -p "$repository_path"
+    git -C "$repository_path" init -b main
+
 fi
-
-mkdir -p "$repository_path"
-
-git -C "$repository_path" init -b main
 
 sleep 1
 
 # -----------------------------------------------------------------------------
-# Phase 5: Prepare local repository
+# Phase 5: Move configuration to local repository
 # -----------------------------------------------------------------------------
 
 clear
 
-print_header 5 "Prepare local repository"
+print_header 5 "Move configuration to local repository"
 
 echo
 echo "Move hardware-configuration.nix"
@@ -427,13 +428,34 @@ else
     read -r -p "Hardware-configuration path: " hardware_path
 fi
 
-cp "$hardware_path" \
-    "$repository_path/hardware-configuration.nix"
+if [[ "$installation_mode" == "iso" ]]; then
+    sudo cp "$hardware_path" \
+        "$repository_path/hardware-configuration.nix"
+else
+    cp "$hardware_path" \
+        "$repository_path/hardware-configuration.nix"
+fi
 
 echo
 echo "Create younix-config.nix"
 
-cat >"$repository_path/younix-config.nix" <<EOF
+write_config() {
+    if [[ "$installation_mode" == "iso" ]]; then
+        sudo tee "$1" >/dev/null
+    else
+        cat >"$1"
+    fi
+}
+
+append_config() {
+    if [[ "$installation_mode" == "iso" ]]; then
+        sudo tee -a "$1" >/dev/null
+    else
+        cat >>"$1"
+    fi
+}
+
+write_config "$repository_path/younix-config.nix" <<EOF
 # file: younix-config.nix
 
 # #############################################################################
@@ -510,7 +532,7 @@ cat >"$repository_path/younix-config.nix" <<EOF
     # Email used for git
     gitEmail = "$gitEmail";
     # Local configuration path
-    configPath = "$repository_path";
+    configPath = "/home/$username/.younix";
 
   };
 
@@ -548,20 +570,22 @@ cat >"$repository_path/younix-config.nix" <<EOF
 EOF
 
 for backend in "${virtualization_backends[@]}"; do
-    printf '        "%s"\n' "$backend" >>"$repository_path/younix-config.nix"
+    printf '        "%s"\n' "$backend" |
+        append_config "$repository_path/younix-config.nix"
 done
 
-cat >>"$repository_path/younix-config.nix" <<EOF
+append_config "$repository_path/younix-config.nix" <<EOF
       ];
       # Options (list of): "virt-manager" or empty list
       frontends = [
 EOF
 
 for frontend in "${virtualization_frontends[@]}"; do
-    printf '        "%s"\n' "$frontend" >>"$repository_path/younix-config.nix"
+    printf '        "%s"\n' "$frontend" |
+        append_config "$repository_path/younix-config.nix"
 done
 
-cat >>"$repository_path/younix-config.nix" <<EOF
+append_config "$repository_path/younix-config.nix" <<EOF
       ];
     };
 
@@ -573,13 +597,23 @@ EOF
 echo
 echo "Copying YouNIX files"
 
-tar \
-    --exclude='./.git' \
-    --exclude='./dev' \
-    --exclude='./docs' \
-    --exclude='./younix-config.nix' \
-    -cf - . |
-    tar -xf - -C "$repository_path"
+if [[ "$installation_mode" == "iso" ]]; then
+    tar \
+        --exclude='./.git' \
+        --exclude='./dev' \
+        --exclude='./docs' \
+        --exclude='./younix-config.nix' \
+        -cf - . |
+        sudo tar -xf - -C "$repository_path"
+else
+    tar \
+        --exclude='./.git' \
+        --exclude='./dev' \
+        --exclude='./docs' \
+        --exclude='./younix-config.nix' \
+        -cf - . |
+        tar -xf - -C "$repository_path"
+fi
 
 sleep 1
 
