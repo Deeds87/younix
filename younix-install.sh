@@ -319,8 +319,15 @@ read -r -p "Git email: " gitEmail
 echo
 
 # Screenshot path
-echo "Enter screenshot path."
-read -r -p "Screenshot path: " screenshot_path
+echo "Enter screenshot path relative to /home/$username."
+echo "Do not include a leading '/'."
+read -r -p "/home/$username/: " input
+
+if [[ -z "$input" ]]; then
+    screenshot_path="/home/$username/Screenshots"
+else
+    screenshot_path="/home/$username/$input"
+fi
 
 sleep 1
 
