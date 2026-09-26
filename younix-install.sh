@@ -605,6 +605,12 @@ if [[ "$installation_mode" == "iso" ]]; then
         --exclude='./younix-config.nix' \
         -cf - . |
         sudo tar -xf - -C "$repository_path"
+
+    echo
+    echo "Create initial commit"
+
+    sudo git -C "$repository_path" add .
+    sudo git -C "$repository_path" commit -m "Initial commit"
 else
     tar \
         --exclude='./.git' \
@@ -613,6 +619,13 @@ else
         --exclude='./younix-config.nix' \
         -cf - . |
         tar -xf - -C "$repository_path"
+
+    echo
+    echo "Create initial commit"
+
+    git -C "$repository_path" add .
+    git -C "$repository_path" commit -m "Initial commit"
+
 fi
 
 sleep 1
@@ -630,7 +643,7 @@ echo "Installation started ..."
 echo
 
 if [[ "$installation_mode" == "iso" ]]; then
-    nixos-install --flake "$repository_path#$hostname"
+    sudo nixos-install --flake "$repository_path#$hostname"
 else
     sudo nixos-rebuild boot --flake "$repository_path#$hostname"
 fi
