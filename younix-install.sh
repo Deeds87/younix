@@ -316,6 +316,8 @@ echo
 echo "Enter E-Mail address to use for git."
 read -r -p "Git email: " gitEmail
 
+echo
+
 # Screenshot path
 echo "Enter screenshot path."
 read -r -p "Screenshot path: " screenshot_path
@@ -392,7 +394,7 @@ else
     repository_path="/home/$username/.younix"
 fi
 
-sudo mkdir -p "$repository_path"
+mkdir -p "$repository_path"
 
 git -C "$repository_path" init -b main
 
