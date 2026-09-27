@@ -41,6 +41,7 @@
     # ------------------------------------------------ Misc
     wl-clipboard # wayland clipboard
     _7zz # achiver utility
+    glib # gio for gvfs plugin
   ];
 
 }
