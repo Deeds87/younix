@@ -24,6 +24,8 @@
     ./nixos/swap.nix
   ];
 
-  hmModules = [ ];
+  hmModules = [
+    ./home-manager/xdg-user-dirs.nix
+  ];
 
 }
