@@ -74,6 +74,14 @@ keyboard_layout=""
 keyboard_variant=""
 
 echo
+echo "Detect installation mode..."
+echo
+
+sleep 1
+
+echo "Installation was started from: $installation_mode"
+
+echo
 echo "Reading system information..."
 echo
 
@@ -178,6 +186,8 @@ case "$input" in
 esac
 
 echo
+echo "----------------------------------------"
+echo
 
 # Desktop
 echo "Choose desktop environment:"
@@ -206,6 +216,8 @@ case "$input" in
     ;;
 esac
 
+echo
+echo "----------------------------------------"
 echo
 
 # Virtualization
@@ -299,11 +311,15 @@ case "$input" in
 esac
 
 echo
+echo "----------------------------------------"
+echo
 
 # Full name
 echo "Enter your full name."
 read -r -p "Full name: " fullname
 
+echo
+echo "----------------------------------------"
 echo
 
 # Git name
@@ -311,11 +327,15 @@ echo "Enter your git username."
 read -r -p "Git username: " gitName
 
 echo
+echo "----------------------------------------"
+echo
 
 # E-Mail
 echo "Enter E-Mail address to use for git."
 read -r -p "Git email: " gitEmail
 
+echo
+echo "----------------------------------------"
 echo
 
 # Screenshot path
@@ -648,6 +668,9 @@ fi
 
 echo
 echo "Installation finished successfully."
+echo
+echo "----------------------------------------"
+echo
 
 sleep 1
 
@@ -667,9 +690,12 @@ if [[ "$installation_mode" == "iso" ]]; then
     gid="$(awk -F: '$1 == "users" {print $3; exit}' /mnt/etc/group)"
     sudo chown -R "$uid:$gid" "/mnt/home/$username/.younix"
     echo "New owner is: $username"
+    echo
 
+    echo "----------------------------------------"
     sleep 1
 
+    echo
     echo "Set password for user: $username"
     sudo nixos-enter --root /mnt -- passwd "$username"
 
@@ -678,8 +704,19 @@ fi
 sleep 1
 
 echo
-echo "Installation complete. System will reboot now."
+echo "Installation complete."
+echo
+
+read -r -p "Do you want to reboot now? [Y/n] " confirm
+
+case "$confirm" in
+"" | y | Y | yes | Yes | YES)
+    sudo systemctl reboot
+    ;;
+*)
+    echo "Installation cancelled."
+    exit 1
+    ;;
+esac
 
 sleep 1
-
-sudo systemctl reboot
